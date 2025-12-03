@@ -1,0 +1,34 @@
+{% load cms_tags menu_tags sekizai_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% page_attribute "page_title" %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        nav { background: #333; padding: 1rem; }
+        nav ul { list-style: none; margin: 0; padding: 0; }
+        nav li { display: inline-block; margin-right: 1rem; }
+        nav a { color: white; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    </style>
+    {% render_block "css" %}
+</head>
+<body>
+    {% cms_toolbar %}
+    
+    <nav>
+        <ul>
+            {% show_menu 0 100 100 100 %}
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1>{% page_attribute "page_title" %}</h1>
+        {% placeholder "content" %}
+    </div>
+    
+    {% render_block "js" %}
+</body>
+</html>

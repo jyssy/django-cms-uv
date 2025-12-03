@@ -1,0 +1,24 @@
+{% extends "web/base_nav_full.html" %}
+{% load static %}
+
+{% block title %}Add Resource News{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Add Resource News</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'resource_news' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

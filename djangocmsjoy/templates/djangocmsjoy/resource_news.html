@@ -1,0 +1,37 @@
+{% extends "web/base_nav_full.html" %}
+{% load static %}
+
+{% block title %}Resource News{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Resource News</h1>
+    
+    {% if resource_news %}
+        <div class="row">
+            {% for news in resource_news %}
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ news.title }}</h5>
+                            <p class="card-text">{{ news.content }}</p>
+                            <p class="text-muted">
+                                <small>Posted: {{ news.created_at|date:"F j, Y" }}</small>
+                            </p>
+                            {% if user.is_staff %}
+                                <a href="{% url 'update_resource_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No resource news available.</p>
+    {% endif %}
+    
+    {% if user.is_staff %}
+        <a href="{% url 'add_resource_news' %}" class="btn btn-success">Add Resource News</a>
+    {% endif %}
+</div>
+{% endblock %}
