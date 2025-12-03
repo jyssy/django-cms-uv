@@ -6,7 +6,7 @@
 **Python:** 3.13 with UV package manager  
 **Django:** 5.2.9  
 **Django CMS:** 5.0  
-**Database:** PostgreSQL 15
+**Database:** PostgreSQL 15  
 **Code Assistant:** Claude Sonnet 4.5
 
 ---
