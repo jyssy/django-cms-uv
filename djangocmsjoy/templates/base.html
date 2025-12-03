@@ -309,8 +309,8 @@
                     <img class="nsf-logo" src="{% static 'djangocmsjoy/img/nsf-logo.png' %}" alt="National Science Foundation">
                 </a>
                 <div class="divider"></div>
-                <a href="https://access-ci.org" class="access">
-                    <img class="access-logo" src="{% static 'djangocmsjoy/img/access-logo.svg' %}" alt="ACCESS">
+                <a href="/" class="access">
+                    <img class="access-logo" src="{% static 'djangocmsjoy/img/ACCESS-operations.svg' %}" alt="ACCESS Operations Portal">
                 </a>
             </div>
         </div>
@@ -321,20 +321,12 @@
         <div class="container">
             <ul class="nav nav-tabs" style="border: none; padding-top: 0.5rem;">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" 
-                       href="{% url 'djangocmsjoy:index' %}">Operations Portal</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'system_status_news' %}active{% endif %}" 
+                       href="{% url 'djangocmsjoy:system_status_news' %}">System Status News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'access_news' %}active{% endif %}" 
-                       href="{% url 'djangocmsjoy:access_news' %}">ACCESS News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'system_news' %}active{% endif %}" 
-                       href="{% url 'djangocmsjoy:system_news' %}">System News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'resource_news' %}active{% endif %}" 
-                       href="{% url 'djangocmsjoy:resource_news' %}">Resource News</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'integration_news' %}active{% endif %}" 
+                       href="{% url 'djangocmsjoy:integration_news' %}">Integration News</a>
                 </li>
             </ul>
         </div>

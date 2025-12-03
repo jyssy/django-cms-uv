@@ -1,15 +1,15 @@
 {% extends "web/base_nav_full.html" %}
 {% load static %}
 
-{% block title %}System News{% endblock %}
+{% block title %}Integration News{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>System News</h1>
+    <h1>Integration News</h1>
     
-    {% if system_news %}
+    {% if integration_news %}
         <div class="row">
-            {% for news in system_news %}
+            {% for news in integration_news %}
                 <div class="col-md-12 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -19,7 +19,7 @@
                                 <small>Posted: {{ news.created_at|date:"F j, Y" }}</small>
                             </p>
                             {% if user.is_staff %}
-                                <a href="{% url 'djangocmsjoy:update_system_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'djangocmsjoy:update_integration_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
                             {% endif %}
                         </div>
                     </div>
@@ -27,13 +27,13 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>No system news available.</p>
+        <p>No integration news available.</p>
     {% endif %}
     
     {% if user.is_staff %}
         <div class="mt-4">
-            <a href="{% url 'djangocmsjoy:add_system_news' %}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Add System News
+            <a href="{% url 'djangocmsjoy:add_integration_news' %}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add Integration News
             </a>
         </div>
     {% endif %}

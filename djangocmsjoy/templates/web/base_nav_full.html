@@ -1,7 +1,6 @@
 {% extends "web/bootstrap.html" %}
 
 {# Load the tag library #}
-
 {% load django_bootstrap5 %}
 
 {# Load CSS and JavaScript #}
@@ -10,9 +9,6 @@
 
 {# Our application stuff #}
 {% load static %}
-{% load get_settings %}
-
-{% load user_admin_tags %}
 
 {% block bootstrap5_content %}
 
@@ -23,32 +19,14 @@
 <div class="container-fluid mb-3">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-        {% if page == 'index' %}<a class="nav-link active" aria-current="page" href="#">
-        {% else %}<a class="nav-link" href="{% url 'djangocmsjoy:index' %}">
-        {% endif %}Operations Portal</a></li>
+        {% if page == 'system_status_news' %}<a class="nav-link active" aria-current="page" href="#">
+        {% else %}<a class="nav-link" href="{% url 'djangocmsjoy:system_status_news' %}">
+        {% endif %}System Status News</a></li>
 
         <li class="nav-item">
-        {% if page == 'access_news' %}<a class="nav-link active" aria-current="page" href="#">
-        {% else %}<a class="nav-link" href="{% url 'djangocmsjoy:access_news' %}">
-        {% endif %}ACCESS News</a></li>
-
-        <li class="nav-item">
-        {% if page == 'system_news' %}<a class="nav-link active" aria-current="page" href="#">
-        {% else %}<a class="nav-link" href="{% url 'djangocmsjoy:system_news' %}">
-        {% endif %}System News</a></li>
-
-        <li class="nav-item">
-        {% if page == 'resource_news' %}<a class="nav-link active" aria-current="page" href="#">
-        {% else %}<a class="nav-link" href="{% url 'djangocmsjoy:resource_news' %}">
-        {% endif %}Resource News</a></li>
-
-        {% if request.user|can_admin_users and APP_NAME == 'Service Index' %}
-        <li class="nav-item">
-            {% if page == 'access_django_user_admin' %}<a class="nav-link active" aria-current="page" href="#">
-            {% else %}<a class="nav-link" href="{% url 'access_django_user_admin:index' %}">
-            {% endif %}Django User Admin</a>
-        </li>
-        {% endif %}
+        {% if page == 'integration_news' %}<a class="nav-link active" aria-current="page" href="#">
+        {% else %}<a class="nav-link" href="{% url 'djangocmsjoy:integration_news' %}">
+        {% endif %}Integration News</a></li>
 
     </ul>
 </div>

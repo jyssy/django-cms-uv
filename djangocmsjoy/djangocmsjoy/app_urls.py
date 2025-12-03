@@ -10,19 +10,14 @@ app_name = 'djangocmsjoy'
 urlpatterns = [
     # Main navigation pages
     path('operations/', views.index, name='index'),
-    path('access-news/', views.access_news, name='access_news'),
-    path('system-news/', views.system_news, name='system_news'),
-    path('resource-news/', views.resource_news, name='resource_news'),
+    path('system-status-news/', views.system_status_news, name='system_status_news'),
+    path('integration-news/', views.integration_news, name='integration_news'),
     
-    # System News management
-    path('system-news/add/', views.add_system_news, name='add_system_news'),
-    path('system-news/update/<int:pk>/', views.update_system_news, name='update_system_news'),
+    # System Status News management
+    path('system-status-news/add/', views.add_system_status_news, name='add_system_status_news'),
+    path('system-status-news/update/<int:pk>/', views.update_system_status_news, name='update_system_status_news'),
     
-    # Resource News management
-    path('resource-news/add/', views.add_resource_news, name='add_resource_news'),
-    path('resource-news/update/<int:pk>/', views.update_resource_news, name='update_resource_news'),
-    
-    # ACCESS News management
-    path('access-news/add/', views.add_access_news, name='add_access_news'),
-    path('access-news/update/<int:pk>/', views.update_access_news, name='update_access_news'),
+    # Integration News management
+    path('integration-news/add/', views.add_integration_news, name='add_integration_news'),
+    path('integration-news/update/<int:pk>/', views.update_integration_news, name='update_integration_news'),
 ]

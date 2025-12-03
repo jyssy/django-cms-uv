@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'menus',
     'treebeard',
     'sekizai',
-    'access_django_user_admin',
+    'django_bootstrap5',
     'djangocmsjoy',
 ]
 

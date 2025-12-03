@@ -26,8 +26,8 @@
                     <p class="card-text">
                         Stay informed about ACCESS announcements, events, and community updates.
                     </p>
-                    <a href="{% url 'djangocmsjoy:access_news' %}" class="btn btn-primary">
-                        View ACCESS News
+                    <a href="https://access-ci.org/news/" target="_blank" class="btn btn-primary">
+                        View ACCESS News <i class="bi bi-box-arrow-up-right"></i>
                     </a>
                 </div>
             </div>
@@ -37,13 +37,13 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <i class="bi bi-exclamation-triangle"></i> System News
+                        <i class="bi bi-exclamation-triangle"></i> System Status News
                     </h5>
                     <p class="card-text">
                         Check system status, maintenance schedules, and outage notifications.
                     </p>
-                    <a href="{% url 'djangocmsjoy:system_news' %}" class="btn btn-warning">
-                        View System News
+                    <a href="{% url 'djangocmsjoy:system_status_news' %}" class="btn btn-warning">
+                        View System Status News
                     </a>
                 </div>
             </div>
@@ -53,13 +53,13 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <i class="bi bi-hdd-network"></i> Resource News
+                        <i class="bi bi-hdd-network"></i> Integration News
                     </h5>
                     <p class="card-text">
-                        Learn about new resources, allocation opportunities, and service updates.
+                        Learn about integrations, resource connections, and new service deployments.
                     </p>
-                    <a href="{% url 'djangocmsjoy:resource_news' %}" class="btn btn-success">
-                        View Resource News
+                    <a href="{% url 'djangocmsjoy:integration_news' %}" class="btn btn-success">
+                        View Integration News
                     </a>
                 </div>
             </div>

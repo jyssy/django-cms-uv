@@ -3,15 +3,6 @@ revision = 3
 requires-python = "==3.12.*"
 
 [[package]]
-name = "access-django-user-admin"
-version = "1.4.6"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/04/56/4997ed363a5e2c6313f6c45d3eb8910274dd678d7cca884fb437c8898dd0/access_django_user_admin-1.4.6.tar.gz", hash = "sha256:8593aa51217caba9ee5e99d1763508e010744e3f27ff7018fe515f9b266ddd10", size = 127909, upload-time = "2025-10-23T18:49:25.189Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/02/96/dbda034656a2fbdf6a1ab7664102ee0b8efc964844e7780d8a0581995588/access_django_user_admin-1.4.6-py3-none-any.whl", hash = "sha256:f2855fc93dc80fbec9549b21a94ff7e7290fedd12a2052b81f822f38b5979876", size = 128285, upload-time = "2025-10-23T18:49:24Z" },
-]
-
-[[package]]
 name = "asgiref"
 version = "3.11.0"
 source = { registry = "https://pypi.org/simple" }
@@ -249,7 +240,6 @@ name = "djangocmsjoy"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "access-django-user-admin" },
     { name = "django" },
     { name = "django-allauth", extra = ["socialaccount"] },
     { name = "django-bootstrap5" },
@@ -263,7 +253,6 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "access-django-user-admin", specifier = "==1.4.6" },
     { name = "django", specifier = ">=5.2,<5.3" },
     { name = "django-allauth", extras = ["socialaccount"], specifier = ">=65.0,<66" },
     { name = "django-bootstrap5", specifier = ">=25.0,<26" },
