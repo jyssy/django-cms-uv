@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('cms.urls')),
+    path('', include('djangocmsjoy.app_urls')),  # Application views (news, services, etc.)
+    path('', include('cms.urls')),  # CMS pages - keep this last as catch-all
 ]
 
 if settings.DEBUG:

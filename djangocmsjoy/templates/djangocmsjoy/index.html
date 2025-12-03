@@ -1,0 +1,78 @@
+{% extends "web/base_nav_full.html" %}
+{% load static %}
+
+{% block title %}Operations Portal{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>ACCESS Operations Portal</h1>
+    
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <p class="lead">
+                Welcome to the ACCESS Operations Portal. Monitor system status, 
+                view operational updates, and stay informed about resource changes.
+            </p>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-newspaper"></i> ACCESS News
+                    </h5>
+                    <p class="card-text">
+                        Stay informed about ACCESS announcements, events, and community updates.
+                    </p>
+                    <a href="{% url 'djangocmsjoy:access_news' %}" class="btn btn-primary">
+                        View ACCESS News
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-exclamation-triangle"></i> System News
+                    </h5>
+                    <p class="card-text">
+                        Check system status, maintenance schedules, and outage notifications.
+                    </p>
+                    <a href="{% url 'djangocmsjoy:system_news' %}" class="btn btn-warning">
+                        View System News
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-hdd-network"></i> Resource News
+                    </h5>
+                    <p class="card-text">
+                        Learn about new resources, allocation opportunities, and service updates.
+                    </p>
+                    <a href="{% url 'djangocmsjoy:resource_news' %}" class="btn btn-success">
+                        View Resource News
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Recent Updates</h2>
+            <p>Quick overview of the latest information across all categories.</p>
+            
+            {# You can add snippets from each news category here #}
+        </div>
+    </div>
+</div>
+{% endblock %}

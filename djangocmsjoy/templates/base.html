@@ -94,11 +94,45 @@
             padding: 0;
             max-width: var(--width);
             margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
         }
         
         nav.cms-nav li {
             display: inline-block;
             margin-right: 1.5rem;
+            position: relative;
+        }
+        
+        nav.cms-nav li:last-child {
+            margin-right: 0;
+        }
+        
+        nav.cms-nav li ul {
+            display: none;
+            position: absolute;
+            background: var(--teal-700);
+            padding: 0.5rem 0;
+            min-width: 200px;
+            top: 100%;
+            left: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        nav.cms-nav li:hover ul {
+            display: block;
+        }
+        
+        nav.cms-nav li ul li {
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav.cms-nav li ul li a {
+            display: block;
+            padding: 0.5rem 1rem;
         }
         
         nav.cms-nav a {
@@ -110,6 +144,26 @@
         nav.cms-nav a:hover {
             color: var(--teal-100);
             text-decoration: underline;
+        }
+        
+        {# Operations Portal Tabs Styles #}
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--teal-700);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: var(--teal-600);
+            background: rgba(19, 133, 151, 0.1);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--teal-700);
+            background: white;
+            border-bottom: 3px solid var(--teal-600);
+            font-weight: 600;
         }
         
         {# Footer Styles #}
@@ -233,10 +287,19 @@
     
     <link rel="icon" type="image/x-icon" href="{% static 'djangocmsjoy/img/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'djangocmsjoy/style-serviceindex.css' %}">
+    
+    {# Google Font for ACCESS UI #}
+    <link rel="stylesheet" 
+          href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,70,400;0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;1,100,400&display=swap" 
+          media="all">
+    
     {% render_block "css" %}
 </head>
 <body>
     {% cms_toolbar %}
+    
+    {# ACCESS Universal Navigation #}
+    <div id="universal-menus"></div>
     
     {# ACCESS CI Header #}
     <header class="access-header">
@@ -252,6 +315,30 @@
             </div>
         </div>
     </header>
+    
+    {# Operations Portal Navigation Tabs #}
+    <div class="container-fluid" style="background: #f8f9fa; border-bottom: 1px solid #dee2e6;">
+        <div class="container">
+            <ul class="nav nav-tabs" style="border: none; padding-top: 0.5rem;">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" 
+                       href="{% url 'djangocmsjoy:index' %}">Operations Portal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'access_news' %}active{% endif %}" 
+                       href="{% url 'djangocmsjoy:access_news' %}">ACCESS News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'system_news' %}active{% endif %}" 
+                       href="{% url 'djangocmsjoy:system_news' %}">System News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'resource_news' %}active{% endif %}" 
+                       href="{% url 'djangocmsjoy:resource_news' %}">Resource News</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     
     {# CMS Page Navigation #}
     <nav class="cms-nav">
@@ -327,6 +414,16 @@
             </div>
         </div>
     </footer>
+    
+    {# ACCESS Universal Menus Script #}
+    <script type="module">
+        import { universalMenus } from "https://esm.sh/@access-ci/ui@0.8.0";
+        
+        universalMenus({
+            siteName: "Operations Portal",
+            target: document.getElementById("universal-menus"),
+        });
+    </script>
     
     {% render_block "js" %}
 </body>

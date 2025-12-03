@@ -1,0 +1,49 @@
+{% extends "web/base_nav_full.html" %}
+{% load static %}
+
+{% block title %}ACCESS News{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>ACCESS News</h1>
+    <p class="lead">Latest announcements, events, and updates from the ACCESS community.</p>
+    
+    {% if access_news %}
+        <div class="row">
+            {% for news in access_news %}
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ news.title }}</h5>
+                            <p class="card-text">{{ news.content }}</p>
+                            {% if news.external_url %}
+                                <a href="{{ news.external_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-box-arrow-up-right"></i> Read Full Article
+                                </a>
+                            {% endif %}
+                            <p class="text-muted mt-2">
+                                <small>Posted: {{ news.created_at|date:"F j, Y" }}</small>
+                            </p>
+                            {% if user.is_staff %}
+                                <a href="{% url 'djangocmsjoy:update_access_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p>No ACCESS news available at this time.</p>
+        </div>
+    {% endif %}
+    
+    {% if user.is_staff %}
+        <div class="mt-4">
+            <a href="{% url 'djangocmsjoy:add_access_news' %}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add ACCESS News
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

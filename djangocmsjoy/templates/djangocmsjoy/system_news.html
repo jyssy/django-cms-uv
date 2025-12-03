@@ -19,7 +19,7 @@
                                 <small>Posted: {{ news.created_at|date:"F j, Y" }}</small>
                             </p>
                             {% if user.is_staff %}
-                                <a href="{% url 'update_system_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'djangocmsjoy:update_system_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
                             {% endif %}
                         </div>
                     </div>
@@ -31,7 +31,11 @@
     {% endif %}
     
     {% if user.is_staff %}
-        <a href="{% url 'add_system_news' %}" class="btn btn-success">Add System News</a>
+        <div class="mt-4">
+            <a href="{% url 'djangocmsjoy:add_system_news' %}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add System News
+            </a>
+        </div>
     {% endif %}
 </div>
 {% endblock %}
