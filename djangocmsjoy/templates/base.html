@@ -1,0 +1,333 @@
+{% load cms_tags menu_tags sekizai_tags static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% page_attribute "page_title" %}{% endblock %} | ACCESS</title>
+    
+    {# ACCESS Branding Colors #}
+    <style>
+        :root {
+            --teal-050: #ECF9F8;
+            --teal-100: #D5F3F0;
+            --teal-400: #4DB8A8;
+            --teal-600: #138597;
+            --teal-700: #1A5B6E;
+            --yellow-200: #FFE69C;
+            --yellow-400: #FFC42D;
+            --orange-400: #FF8C42;
+            --green-400: #52C41A;
+            --red-400: #FF4D4F;
+            --contrast: #232323;
+            --contrast-6: #999999;
+            --contrast-8: #CCCCCC;
+            --contrast-9: #D9D9D9;
+            --width: 1200px;
+        }
+        
+        body {
+            font-family: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--contrast);
+        }
+        
+        a {
+            color: var(--teal-600);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: var(--width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        {# Header Styles #}
+        .access-header {
+            background-color: white;
+            border-bottom: 1px solid var(--contrast-9);
+        }
+        
+        .access-header .container {
+            box-sizing: content-box;
+            height: 84px;
+            padding-top: 20px;
+        }
+        
+        .logo {
+            align-items: start;
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .nsf-logo {
+            height: 49px;
+        }
+        
+        .access-logo {
+            height: 23px;
+            margin-top: 12px;
+        }
+        
+        .logo .divider {
+            border-right: 2px solid #bbbbbb;
+            height: 40px;
+            margin: 4px 15px 0 12px;
+            width: 0;
+        }
+        
+        {# Navigation #}
+        nav.cms-nav {
+            background: var(--teal-700);
+            padding: 1rem;
+        }
+        
+        nav.cms-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            max-width: var(--width);
+            margin: 0 auto;
+        }
+        
+        nav.cms-nav li {
+            display: inline-block;
+            margin-right: 1.5rem;
+        }
+        
+        nav.cms-nav a {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        nav.cms-nav a:hover {
+            color: var(--teal-100);
+            text-decoration: underline;
+        }
+        
+        {# Footer Styles #}
+        .access-footer {
+            background-color: #fbfbfb;
+            border-top: 1px solid var(--contrast-9);
+            margin-top: 4rem;
+        }
+        
+        .access-footer .container {
+            padding: 40px 20px 60px;
+        }
+        
+        .footer-upper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .footer-about {
+            flex: 1;
+        }
+        
+        .footer-about .awards {
+            font-size: 15px;
+            line-height: 21px;
+            margin: 0 0 20px;
+        }
+        
+        .footer-about .disclaimer {
+            font-size: 12px;
+            line-height: 18px;
+            margin: 0 0 15px;
+        }
+        
+        .footer-about .contact {
+            font-size: 16px;
+            font-stretch: 70%;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        
+        .social-links {
+            display: flex;
+            list-style: none;
+            margin: 20px 0 0;
+            padding: 0;
+            gap: 35px;
+        }
+        
+        .personas {
+            font-size: 15px;
+        }
+        
+        .personas ul {
+            list-style: none;
+            margin: 5px 0;
+            padding: 0;
+        }
+        
+        .personas li {
+            padding: 3px 0;
+        }
+        
+        .footer-lower {
+            border-top: 1px solid var(--contrast-9);
+            margin-top: 30px;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .utility-links {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
+        }
+        
+        .utility-links a {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        @media (min-width: 900px) {
+            .access-header .container {
+                height: 144px;
+                padding-top: 52px;
+            }
+            
+            .nsf-logo {
+                height: 82px;
+            }
+            
+            .access-logo {
+                height: auto;
+                margin-top: 22px;
+                width: 253px;
+            }
+            
+            .logo .divider {
+                height: 70px;
+                margin: 6px 23px 0 20px;
+            }
+            
+            .footer-upper {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .footer-lower {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: start;
+            }
+        }
+    </style>
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'djangocmsjoy/img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'djangocmsjoy/style-serviceindex.css' %}">
+    {% render_block "css" %}
+</head>
+<body>
+    {% cms_toolbar %}
+    
+    {# ACCESS CI Header #}
+    <header class="access-header">
+        <div class="container">
+            <div class="logo">
+                <a href="https://www.nsf.gov" class="nsf">
+                    <img class="nsf-logo" src="{% static 'djangocmsjoy/img/nsf-logo.png' %}" alt="National Science Foundation">
+                </a>
+                <div class="divider"></div>
+                <a href="https://access-ci.org" class="access">
+                    <img class="access-logo" src="{% static 'djangocmsjoy/img/access-logo.svg' %}" alt="ACCESS">
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    {# CMS Page Navigation #}
+    <nav class="cms-nav">
+        <ul>
+            {% show_menu 0 100 100 100 %}
+        </ul>
+    </nav>
+    
+    {# Main Content #}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    {# ACCESS CI Footer #}
+    <footer class="access-footer">
+        <div class="container">
+            <div class="footer-upper">
+                <div class="footer-about">
+                    <p class="awards">
+                        ACCESS is an advanced computing and data resource program
+                        supported by the U.S. National Science Foundation (NSF) under the
+                        Office of Advanced Cyberinfrastructure awards
+                        <a href="https://www.nsf.gov/awardsearch/show-award/?AWD_ID=2138259">#2138259</a>,
+                        <a href="https://www.nsf.gov/awardsearch/showAward/?AWD_ID=2138286">#2138286</a>,
+                        <a href="https://www.nsf.gov/awardsearch/showAward/?AWD_ID=2138307">#2138307</a>,
+                        <a href="https://www.nsf.gov/awardsearch/showAward/?AWD_ID=2137603">#2137603</a> and
+                        <a href="https://www.nsf.gov/awardsearch/showAward/?AWD_ID=2138296">#2138296</a>.
+                    </p>
+                    <p class="disclaimer">
+                        Any opinions, findings, conclusions or recommendations expressed
+                        in this material are those of the authors and do not necessarily
+                        reflect the views of NSF.
+                    </p>
+                    <a class="contact" href="https://access-ci.org/contact/">Contact ACCESS</a>
+                    
+                    <ul class="social-links">
+                        <li><a href="https://twitter.com/ACCESSforCI">X</a></li>
+                        <li><a href="https://www.youtube.com/c/ACCESSforCI">YouTube</a></li>
+                        <li><a href="https://www.facebook.com/ACCESSforCI">Facebook</a></li>
+                        <li><a href="https://www.linkedin.com/company/accessforci/">LinkedIn</a></li>
+                    </ul>
+                </div>
+                
+                <div class="personas">
+                    <p><strong>For:</strong></p>
+                    <ul>
+                        <li><a href="https://access-ci.org/get-started/for-researchers/">Researchers</a></li>
+                        <li><a href="https://access-ci.org/get-started/for-educators/">Educators</a></li>
+                        <li><a href="https://access-ci.org/get-started/for-graduate-students/">Graduate Students</a></li>
+                        <li><a href="https://access-ci.org/get-started/for-resource-providers/">Resource Providers</a></li>
+                        <li><a href="https://access-ci.org/get-started/for-programs-organizations/">CI Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-lower">
+                <div class="logo logo-footer">
+                    <a href="https://www.nsf.gov" class="nsf">
+                        <img class="nsf-logo" src="{% static 'djangocmsjoy/img/nsf-logo.png' %}" alt="National Science Foundation" style="height: 40px;">
+                    </a>
+                    <div class="divider" style="height: 34px; margin: 3px 11px 0 9px;"></div>
+                    <a href="https://access-ci.org" class="access">
+                        <img class="access-logo" src="{% static 'djangocmsjoy/img/access-logo.svg' %}" alt="ACCESS" style="height: 21px; margin-top: 10px;">
+                    </a>
+                </div>
+                
+                <ul class="utility-links">
+                    <li><a href="https://access-ci.org/acceptable-use/">Acceptable Use</a></li>
+                    <li><a href="https://access-ci.org/about/acknowledging-access/">Acknowledging ACCESS</a></li>
+                    <li><a href="https://access-ci.org/code-of-conduct/">Code of Conduct</a></li>
+                    <li><a href="https://access-ci.org/privacy-policy/">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+    {% render_block "js" %}
+</body>
+</html>
