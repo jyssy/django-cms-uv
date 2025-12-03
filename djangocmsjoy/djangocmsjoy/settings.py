@@ -93,8 +93,12 @@ WSGI_APPLICATION = 'djangocmsjoy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'djangocmsjoy',
+        'USER': 'jelambeadmin',
+        'PASSWORD': '',  # No password for local development
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

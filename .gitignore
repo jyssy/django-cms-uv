@@ -145,6 +145,9 @@ env.bak/
 venv.bak/
 .DS_Store
 
+# test data
+datadump.json
+
 # Spyder project settings
 .spyderproject
 .spyproject
