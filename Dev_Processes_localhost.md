@@ -154,6 +154,8 @@
 13. [Removing AccessNews Model and External Linking](#13-removing-accessnews-model-and-external-linking)
 14. [SQLite to PostgreSQL Migration](#14-sqlite-to-postgresql-migration)
 15. [Template Tag and Static File Troubleshooting](#15-template-tag-and-static-file-troubleshooting)
+16. [Design Integration: Bootstrap, ACCESS Branding, and Theming](#16-design-integration-bootstrap-access-branding-and-theming)
+17. [Custom Django CMS Plugins: News Feed System](#17-custom-django-cms-plugins-news-feed-system)
 
 ---
 
@@ -3715,6 +3717,1383 @@ INSTALLED_APPS = [
 
 ---
 
-**Document Version:** 1.3  
-**Last Updated:** December 3, 2025  
+## 16. Design Integration: Bootstrap, ACCESS Branding, and Theming
+
+**Date:** December 4, 2025  
+**Context:** Comprehensive overview of how Bootstrap 5, ACCESS branding elements, and custom theming were integrated into the Django CMS project
+
+### Overview
+
+This Django CMS project uses a layered design approach combining:
+1. **Bootstrap 5** - Core responsive framework
+2. **django-bootstrap5** - Django integration package
+3. **ACCESS CI Branding** - Official ACCESS design elements
+4. **Custom CSS** - Project-specific styling
+
+### Bootstrap 5 Integration
+
+#### Package Installation
+
+**Already installed in this project** (present in `pyproject.toml`):
+```toml
+[project]
+dependencies = [
+    "django-bootstrap5>=25.0",
+    # ... other dependencies
+]
+```
+
+**If starting a new project, you would install with:**
+```bash
+uv add django-bootstrap5
+```
+
+**Purpose:** Provides Django template tags for Bootstrap 5 components, forms, and utilities.
+
+#### Configuration in settings.py
+```python
+INSTALLED_APPS = [
+    # ... other apps ...
+    'django_bootstrap5',  # Must be before custom apps to allow overrides
+    'djangocmsjoy',
+]
+```
+
+#### Base Template Structure
+
+**File:** `djangocmsjoy/templates/web/bootstrap.html`
+
+This template extends `django_bootstrap5/bootstrap5.html` which provides:
+- Proper HTML5 doctype
+- Bootstrap 5 CSS from CDN
+- Bootstrap 5 JavaScript bundle
+- Responsive viewport meta tag
+- jQuery integration
+
+**Key Template Blocks:**
+```django
+{% extends 'django_bootstrap5/bootstrap5.html' %}
+
+{% block bootstrap5_title %}
+    {# Sets the <title> tag #}
+{% endblock %}
+
+{% block bootstrap5_extra_head %}
+    {# Additional <head> content: fonts, custom CSS, favicon #}
+{% endblock %}
+
+{% block bootstrap5_content %}
+    {# Main page content #}
+{% endblock %}
+
+{% block bootstrap5_extra_script %}
+    {# JavaScript at end of <body> #}
+{% endblock %}
+```
+
+#### django-bootstrap5 Template Tags
+
+**Available in templates after:**
+```django
+{% load django_bootstrap5 %}
+```
+
+**Common tags used:**
+- `{% bootstrap_css %}` - Includes Bootstrap CSS
+- `{% bootstrap_javascript %}` - Includes Bootstrap JS bundle
+- `{% bootstrap_messages %}` - Renders Django messages as Bootstrap alerts
+- `{% bootstrap_form %}` - Renders forms with Bootstrap styling
+- `{% bootstrap_button %}` - Creates Bootstrap-styled buttons
+
+### ACCESS Branding Elements
+
+ACCESS branding is implemented through multiple components to match the official ACCESS CI design system.
+
+#### 1. ACCESS Universal Navigation Menus
+
+**Package:** `@access-ci/ui` (version 0.8.0)  
+**Delivery:** ES Module via CDN  
+**Purpose:** Provides consistent navigation across all ACCESS applications
+
+**Implementation in bootstrap.html:**
+```html
+{# Container for universal menus #}
+<div id="universal-menus"></div>
+
+{# Loading script #}
+<script type="module">
+    import { universalMenus } from "https://esm.sh/@access-ci/ui@0.8.0";
+    
+    universalMenus({
+        siteName: "Operations Portal",
+        target: document.getElementById("universal-menus"),
+    });
+</script>
+```
+
+**What it provides:**
+- Top navigation bar with ACCESS logo
+- Links to ACCESS support, documentation, allocations
+- User login/profile menu (when authenticated)
+- Consistent header across all ACCESS services
+- Responsive mobile menu
+
+#### 2. ACCESS Typography
+
+**Font:** Archivo (Google Fonts)  
+**Loaded in bootstrap.html:**
+```html
+<link rel="stylesheet" 
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,70,400;0,100,400;0,100,500;0,100,600;0,100,700;0,100,800;1,100,400&display=swap" 
+      media="all">
+```
+
+**Font weights used:**
+- 400 (normal) - Body text
+- 500 (medium) - Emphasized text
+- 600 (semi-bold) - Subheadings
+- 700 (bold) - Headings, buttons
+- 800 (extra-bold) - Large headings
+
+**Applied in style-serviceindex.css:**
+```css
+body {
+   font: normal 14px Archivo, Verdana, Helvetica;
+   color: #333;
+   background-color: #fff;
+}
+```
+
+#### 3. ACCESS Color Palette
+
+**Defined in style-serviceindex.css as CSS variables:**
+
+```css
+:root {
+    --bs-dark: #1A5B6E;           /* ACCESS Teal Dark */
+    --bs-dark-rgb: 26, 91, 110;
+    
+    --bs-light: #ECF9F8;          /* ACCESS Teal Light */
+    --bs-light-rgb: 236, 249, 248;
+    
+    --bs-primary: #FFC42D;        /* ACCESS Yellow */
+    --bs-primary-rgb: 255, 196, 45;
+    
+    --bs-secondary: #138597;      /* ACCESS Teal Medium */
+    --bs-secondary-rgb: 19, 133, 151;
+}
+```
+
+**Helper classes:**
+```css
+.bg-access-dark {
+    background-color: #1A5B6E;    /* Used for headers, emphasis */
+}
+
+.bg-access-medium {
+    background-color: #138597;    /* Used for secondary elements */
+}
+
+.bg-access-light {
+    background-color: #ECF9F8;    /* Used for backgrounds, panels */
+}
+```
+
+**Button styling (ACCESS standard):**
+```css
+.btn-access-auth {
+    font-family: Archivo;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    background-color: #fec42d;    /* ACCESS Yellow */
+    border-color: #fec42d;
+    border-radius: 0;             /* Square corners per ACCESS design */
+    border-width: 4px;
+    padding: 8px;
+}
+
+.btn-access-auth:hover {
+    background-color: #fff;
+    border-color: #000;
+}
+```
+
+#### 4. ACCESS Logos and Brand Assets
+
+**Location:** `djangocmsjoy/static/djangocmsjoy/img/`
+
+**NSF Logo:**
+- File: `nsf-logo.png`
+- Usage: Required on all NSF-funded project pages
+- Desktop size: 82px height
+- Mobile size: 49px height
+- Position: Left side of header
+
+**ACCESS Operations Logo:**
+- File: `ACCESS-operations.svg`
+- Usage: Primary branding for Operations Portal
+- Desktop size: 253px width
+- Mobile size: 23px height
+- Position: Right of NSF logo (after divider)
+
+**Standard ACCESS Logo:**
+- File: `access-logo.svg`
+- Usage: Alternative branding option
+- Scalable vector graphic
+
+**Favicon:**
+- File: `favicon.ico`
+- Usage: Browser tab icon
+- Size: 16x16, 32x32, 48x48 (multi-resolution)
+
+#### 5. Header Structure with Responsive Logos
+
+**Implemented in bootstrap.html:**
+
+```html
+<style media="screen" type="text/css">
+    .access-header {
+        background-color: white;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .access-header .container {
+        box-sizing: content-box;
+        height: 84px;        /* Mobile height */
+        padding-top: 20px;
+    }
+    
+    .logo {
+        align-items: start;
+        display: flex;
+        flex-direction: row;
+    }
+    
+    /* Mobile/small screen sizes */
+    .nsf-logo {
+        height: 49px;
+    }
+    
+    .access-logo {
+        height: 23px;
+        margin-top: 12px;
+    }
+    
+    .logo .divider {
+        border-right: 2px solid #bbbbbb;
+        height: 40px;
+        margin: 4px 15px 0 12px;
+        width: 0;
+    }
+    
+    /* Desktop sizes - 900px and above */
+    @media (min-width: 900px) {
+        .access-header .container {
+            height: 144px;      /* Desktop height */
+            padding-top: 52px;
+        }
+        
+        .nsf-logo {
+            height: 82px;       /* Larger on desktop */
+        }
+        
+        .access-logo {
+            height: auto;
+            margin-top: 22px;
+            width: 253px;       /* Fixed width on desktop */
+        }
+        
+        .logo .divider {
+            height: 70px;       /* Taller divider on desktop */
+            margin: 6px 23px 0 20px;
+        }
+    }
+</style>
+
+{# Header HTML structure #}
+<div id="universal-menus"></div>
+
+<header class="access-header">
+    <div class="container">
+        <div class="logo">
+            <a href="https://www.nsf.gov" target="_blank" rel="noopener">
+                <img class="nsf-logo" 
+                     src="{% static 'djangocmsjoy/img/nsf-logo.png' %}" 
+                     alt="NSF Logo">
+            </a>
+            <div class="divider"></div>
+            <a href="/">
+                <img class="access-logo" 
+                     src="{% static 'djangocmsjoy/img/ACCESS-operations.svg' %}" 
+                     alt="ACCESS Operations Portal">
+            </a>
+        </div>
+    </div>
+</header>
+```
+
+**Responsive behavior:**
+- **< 900px (mobile/tablet):** Smaller logos, compact header (84px)
+- **≥ 900px (desktop):** Larger logos, spacious header (144px)
+- **Flexbox layout:** Ensures logos stay aligned
+- **Divider:** Visual separator matches header height
+
+### Custom CSS Integration
+
+**File:** `djangocmsjoy/static/djangocmsjoy/style-serviceindex.css`
+
+#### Typography Hierarchy
+
+```css
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+h3 {
+    font-size: 20px;
+    color: #333;
+}
+
+h4 {
+    font-size: 18px;
+    color: #333;
+}
+
+h5 {
+    font-size: 16px;
+    color: #333;
+}
+
+.access-intro {
+    font-size: 24px;   /* For introductory paragraphs */
+}
+
+.access-paragraph {
+    font-size: 18px;   /* For emphasized content */
+}
+```
+
+#### Body Styling
+
+```css
+body {
+   font: normal 14px Archivo, Verdana, Helvetica;
+   color: #333;              /* Readable dark gray */
+   background-color: #fff;   /* Clean white background */
+}
+```
+
+**Why #333 instead of #000:**
+- Softer on eyes than pure black
+- Better readability for long-form content
+- Matches modern web design standards
+- Maintains sufficient contrast (WCAG AA compliant)
+
+#### Bootstrap Component Overrides
+
+**Card headers:**
+```css
+.card > .card-header {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+```
+
+**Navigation pills:**
+```css
+.nav-pills li {
+    color: #428bca !important;
+}
+
+.nav-pills a:hover {
+    color: #000000 !important;
+}
+
+.nav-pills > li.active {
+    background-color: #428bca !important;
+}
+
+.nav-pills > li.active > a {
+    color: #fff;
+    text-decoration: none;
+}
+```
+
+### Template Inheritance Chain
+
+Understanding how templates stack provides complete theming:
+
+```
+django_bootstrap5/bootstrap5.html (from package)
+    ↓ extends
+web/bootstrap.html (custom, adds ACCESS elements)
+    ↓ extends
+web/base_nav_full.html (adds navigation tabs)
+    ↓ extends
+djangocmsjoy/system_status_news.html (page content)
+```
+
+**Each level adds:**
+
+1. **bootstrap5.html** (django-bootstrap5 package)
+   - HTML5 doctype
+   - Bootstrap CSS from CDN
+   - Bootstrap JavaScript
+   - Responsive meta tags
+   - Basic structure
+
+2. **web/bootstrap.html** (custom)
+   - Favicon
+   - Google Fonts (Archivo)
+   - Custom CSS (style-serviceindex.css)
+   - jQuery and jQuery UI
+   - ACCESS universal menus script
+   - Header with NSF and ACCESS logos
+   - Responsive logo sizing
+
+3. **web/base_nav_full.html** (custom)
+   - Navigation tabs (System Status News, Integration News)
+   - Bootstrap message display
+   - Content container
+
+4. **Page templates** (system_status_news.html, etc.)
+   - Page-specific content
+   - News item listings
+   - Forms, tables, etc.
+
+### Static Files Management
+
+#### Directory Structure
+
+```
+djangocmsjoy/
+├── static/djangocmsjoy/          # Source files (version controlled)
+│   ├── style-serviceindex.css
+│   ├── img/
+│   │   ├── nsf-logo.png
+│   │   ├── ACCESS-operations.svg
+│   │   ├── access-logo.svg
+│   │   └── favicon.ico
+│   └── fonts/
+└── staticfiles/                   # Collected files (not version controlled)
+    └── djangocmsjoy/
+        └── [mirrored structure]
+```
+
+#### Collecting Static Files
+
+**Command:**
+```bash
+uv run python djangocmsjoy/manage.py collectstatic --noinput
+```
+
+**What it does:**
+1. Gathers all static files from installed apps
+2. Copies to `STATIC_ROOT` (staticfiles/ directory)
+3. Preserves directory structure
+4. Overwrites existing files (--noinput skips confirmation)
+
+**When to run:**
+- After modifying CSS/JavaScript
+- After adding new images/fonts
+- Before deploying to production
+- After installing/uninstalling packages with static files
+
+#### Static Files in Templates
+
+**Correct usage:**
+```django
+{% load static %}
+<link rel="stylesheet" href="{% static 'djangocmsjoy/style-serviceindex.css' %}">
+<img src="{% static 'djangocmsjoy/img/nsf-logo.png' %}" alt="NSF Logo">
+```
+
+**Why use {% static %} tag:**
+- Works with any STATIC_URL setting
+- Handles CDN configurations
+- Generates proper paths in all environments
+- Required for Django's static files system
+
+**Settings.py configuration:**
+```python
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'djangocmsjoy' / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'djangocmsjoy' / 'static',
+]
+```
+
+### jQuery and jQuery UI Integration
+
+**Purpose:** Required for interactive components and legacy plugins
+
+**Included in bootstrap.html:**
+```html
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" 
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" 
+        crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" 
+        integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" 
+        crossorigin="anonymous"></script>
+```
+
+**jQuery UI CSS:**
+```html
+<link type="text/css" 
+      href="//code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css" 
+      rel="stylesheet" />
+```
+
+**Used for:**
+- Date pickers in forms
+- Accordions and tabs
+- Drag-and-drop functionality
+- Custom UI widgets
+- Legacy ACCESS components
+
+### Glyphicons Font Integration
+
+**Custom font-face definition in style-serviceindex.css:**
+
+```css
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('/static/djangocmsjoy/fonts/glyphicons-halflings-regular.eot');
+    src: url('/static/djangocmsjoy/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+         url('/static/djangocmsjoy/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('/static/djangocmsjoy/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+         url('/static/djangocmsjoy/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+```
+
+**Available icons:**
+```css
+.glyphicon-chevron-up:before { content: "\e113"; }
+.glyphicon-chevron-down:before { content: "\e114"; }
+.glyphicon-pencil:before { content: "\270f"; }
+.glyphicon-plus:before { content: "\2b"; }
+.glyphicon-remove:before { content: "\e014"; }
+.glyphicon-info-sign:before { content: "\e086"; }
+```
+
+**Usage in templates:**
+```html
+<span class="glyphicon glyphicon-plus"></span> Add New
+<button><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+```
+
+### Design System Summary
+
+#### Design Layers
+1. **Foundation:** Bootstrap 5 (responsive grid, components)
+2. **Integration:** django-bootstrap5 (Django template tags)
+3. **Branding:** ACCESS colors, logos, typography
+4. **Custom:** Project-specific styles and overrides
+
+#### Color Usage Guidelines
+- **Teal Dark (#1A5B6E):** Primary buttons, headers, emphasis
+- **Teal Medium (#138597):** Links, secondary elements
+- **Teal Light (#ECF9F8):** Backgrounds, panels
+- **Yellow (#FFC42D):** Call-to-action buttons, highlights
+- **Text (#333):** Body text, headings (readable gray)
+- **White (#fff):** Backgrounds, cards, containers
+
+#### Typography Scale
+- **Body:** 14px (comfortable reading size)
+- **Headings:** 36px → 16px (h1 → h5)
+- **Intro text:** 24px (larger paragraphs)
+- **Emphasis:** 18px (highlighted content)
+
+#### Responsive Breakpoints
+- **< 900px:** Mobile/tablet layout
+- **≥ 900px:** Desktop layout
+- **Bootstrap default breakpoints also active:**
+  - xs: < 576px
+  - sm: ≥ 576px
+  - md: ≥ 768px
+  - lg: ≥ 992px
+  - xl: ≥ 1200px
+  - xxl: ≥ 1400px
+
+### Key Design Files Reference
+
+**Templates:**
+- `djangocmsjoy/templates/web/bootstrap.html` - Base template with all design elements
+- `djangocmsjoy/templates/web/base_nav_full.html` - Navigation wrapper
+- `djangocmsjoy/templates/base.html` - Django CMS pages base
+
+**Stylesheets:**
+- `djangocmsjoy/static/djangocmsjoy/style-serviceindex.css` - Custom CSS (508 lines)
+- Bootstrap 5 CSS - Loaded via CDN
+- jQuery UI CSS - Loaded via CDN
+
+**Assets:**
+- `djangocmsjoy/static/djangocmsjoy/img/` - Logos, icons
+- `djangocmsjoy/static/djangocmsjoy/fonts/` - Glyphicons
+
+**Scripts:**
+- jQuery 3.6.1 - DOM manipulation
+- jQuery UI 1.13.2 - UI widgets
+- Bootstrap 5 JS - Component behavior
+- @access-ci/ui - Universal menus
+
+### Testing Design Changes
+
+**After modifying CSS:**
+```bash
+# 1. Collect static files
+uv run python djangocmsjoy/manage.py collectstatic --noinput
+
+# 2. Restart server (if running)
+# Press Ctrl+C then:
+uv run python djangocmsjoy/manage.py runserver
+
+# 3. Hard refresh browser
+# Chrome/Firefox: Cmd+Shift+R (Mac) or Ctrl+Shift+R (Windows/Linux)
+# Safari: Cmd+Option+R
+```
+
+**Check for issues:**
+1. Static files loading (no 404s in browser console)
+2. Logos display at correct sizes
+3. Colors match ACCESS palette
+4. Text is readable (sufficient contrast)
+5. Responsive layout works at different screen sizes
+6. Universal menus load at top
+
+### Troubleshooting Design Issues
+
+**Static files not loading:**
+```bash
+# Verify STATIC_URL in settings
+python -c "from djangocmsjoy.settings import STATIC_URL; print(STATIC_URL)"
+
+# Check if collectstatic was run
+ls -la djangocmsjoy/staticfiles/djangocmsjoy/
+
+# Force clear and recollect
+rm -rf djangocmsjoy/staticfiles/
+uv run python djangocmsjoy/manage.py collectstatic --noinput
+```
+
+**Universal menus not appearing:**
+- Check browser console for JavaScript errors
+- Verify `<div id="universal-menus"></div>` exists in template
+- Ensure script runs after div is rendered
+- Check network tab for ESM module loading
+
+**Wrong colors displaying:**
+- Verify CSS variables in `:root`
+- Check for conflicting Bootstrap theme
+- Clear browser cache
+- Inspect element to see which styles are applied
+
+**Logos wrong size:**
+- Check media query breakpoint (900px)
+- Verify static file paths are correct
+- Test at different screen widths
+- Look for conflicting CSS rules
+
+---
+
+## 17. Custom Django CMS Plugins: News Feed System
+
+### Overview
+
+This project implements custom Django CMS plugins to create an editable news feed system directly in the CMS interface. The system uses a **parent-child plugin architecture** where container plugins hold individual news item plugins, enabling content editors to manage news without writing code or accessing the database.
+
+### Architecture Pattern: Container + Item Plugins
+
+The plugin system consists of 4 custom plugins organized in pairs:
+
+**System Status News:**
+- `SystemStatusNewsFeedPlugin` (container) - Displays feed of system status items
+- `SystemStatusNewsItemPluginPublisher` (child) - Individual system status news item
+
+**Integration News:**
+- `IntegrationNewsFeedPlugin` (container) - Displays feed of integration items
+- `IntegrationNewsItemPluginPublisher` (child) - Individual integration news item
+
+This pattern creates a hierarchical structure where:
+1. Editor adds a Feed Container plugin to a CMS page
+2. Editor adds News Item plugins inside the container
+3. Feed automatically sorts items by date (newest first)
+4. Items render with consistent formatting
+
+### How CMS Plugins Work
+
+Django CMS plugins are reusable content components that:
+- Appear in the CMS toolbar for content editors to add to pages
+- Have database models to store their configuration/content
+- Use templates to render their HTML output
+- Can contain other plugins (parent-child relationships)
+- Integrate with Django's admin forms for editing
+
+### Plugin Component Structure
+
+Each plugin requires 3 files:
+
+1. **Model** (`models.py`) - Database table storing plugin data
+2. **Plugin Class** (`cms_plugins.py`) - Defines behavior and registration
+3. **Template** (`templates/djangocmsjoy/plugins/*.html`) - HTML output
+
+### Code Implementation
+
+#### 1. Plugin Models (djangocmsjoy/models.py)
+
+Models extend `CMSPlugin` instead of `models.Model` to gain CMS-specific functionality:
+
+```python
+from django.db import models
+from django.contrib.auth.models import User
+from cms.models.pluginmodel import CMSPlugin
+
+
+class SystemStatusNewsItemPlugin(CMSPlugin):
+    """Model for System Status News items added via CMS"""
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    published_date = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-published_date']  # Newest first
+    
+    def __str__(self):
+        return self.title
+
+
+class IntegrationNewsItemPlugin(CMSPlugin):
+    """Model for Integration News items added via CMS"""
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    published_date = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-published_date']  # Newest first
+    
+    def __str__(self):
+        return self.title
+```
+
+**Key Features:**
+- `CMSPlugin` parent class provides page association, position, language, and plugin tree hierarchy
+- `auto_now_add=True` automatically timestamps when item is created
+- `ForeignKey(User)` tracks who created each news item
+- `ordering = ['-published_date']` sorts newest first by default
+- `__str__()` method displays title in admin interface
+
+#### 2. Plugin Classes (djangocmsjoy/cms_plugins.py)
+
+Plugin classes define how the plugins behave in the CMS:
+
+```python
+from cms.plugin_base import CMSPluginBase
+from cms.plugin_pool import plugin_pool
+from cms.models.pluginmodel import CMSPlugin
+from .models import SystemStatusNewsItemPlugin, IntegrationNewsItemPlugin
+
+
+@plugin_pool.register_plugin
+class SystemStatusNewsItemPluginPublisher(CMSPluginBase):
+    """CMS Plugin for adding System Status News items"""
+    model = SystemStatusNewsItemPlugin
+    name = "System Status News Item"
+    render_template = "djangocmsjoy/plugins/system_status_news_item.html"
+    cache = False
+    
+    fieldsets = [
+        (None, {
+            'fields': ('title', 'content', 'author')
+        }),
+    ]
+    
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        context['instance'] = instance
+        return context
+
+
+@plugin_pool.register_plugin
+class IntegrationNewsItemPluginPublisher(CMSPluginBase):
+    """CMS Plugin for adding Integration News items"""
+    model = IntegrationNewsItemPlugin
+    name = "Integration News Item"
+    render_template = "djangocmsjoy/plugins/integration_news_item.html"
+    cache = False
+    
+    fieldsets = [
+        (None, {
+            'fields': ('title', 'content', 'author')
+        }),
+    ]
+    
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        context['instance'] = instance
+        return context
+
+
+@plugin_pool.register_plugin
+class SystemStatusNewsFeedPlugin(CMSPluginBase):
+    """CMS Plugin to display all System Status News items in chronological order"""
+    model = CMSPlugin
+    name = "System Status News Feed"
+    render_template = "djangocmsjoy/plugins/system_status_news_feed.html"
+    cache = False
+    allow_children = True
+    child_classes = ['SystemStatusNewsItemPluginPublisher']
+    
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        # Get all child news items, ordered by date (newest first)
+        children = instance.child_plugin_instances or []
+        news_items = [child for child in children if isinstance(child, SystemStatusNewsItemPlugin)]
+        news_items.sort(key=lambda x: x.published_date, reverse=True)
+        context['news_items'] = news_items
+        return context
+
+
+@plugin_pool.register_plugin
+class IntegrationNewsFeedPlugin(CMSPluginBase):
+    """CMS Plugin to display all Integration News items in chronological order"""
+    model = CMSPlugin
+    name = "Integration News Feed"
+    render_template = "djangocmsjoy/plugins/integration_news_feed.html"
+    cache = False
+    allow_children = True
+    child_classes = ['IntegrationNewsItemPluginPublisher']
+    
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        # Get all child news items, ordered by date (newest first)
+        children = instance.child_plugin_instances or []
+        news_items = [child for child in children if isinstance(child, IntegrationNewsItemPlugin)]
+        news_items.sort(key=lambda x: x.published_date, reverse=True)
+        context['news_items'] = news_items
+        return context
+```
+
+**Key Attributes Explained:**
+
+| Attribute | Purpose |
+|-----------|---------|
+| `@plugin_pool.register_plugin` | Decorator that registers plugin with Django CMS, making it appear in toolbar |
+| `model` | Database model storing plugin data |
+| `name` | Display name shown in CMS toolbar dropdown |
+| `render_template` | Path to HTML template for rendering |
+| `cache = False` | Disables caching so news updates appear immediately |
+| `fieldsets` | Defines form fields shown in admin popup when editing |
+| `allow_children = True` | Allows this plugin to contain other plugins (container) |
+| `child_classes` | List of plugin class names allowed as children (enforces structure) |
+
+**The `render()` Method:**
+- Called when plugin is displayed on page
+- `context` - Template context dictionary
+- `instance` - The plugin model instance with all data
+- `placeholder` - CMS placeholder where plugin is placed
+- Adds data to context that templates can access
+
+#### 3. Plugin Templates
+
+**Feed Container Template** (`djangocmsjoy/plugins/system_status_news_feed.html`):
+
+```html
+{# Template for System Status News Feed Container #}
+<div class="news-feed system-status-news-feed">
+    <div class="news-feed-header mb-4">
+        <h2>System Status News</h2>
+        <p class="text-muted">Updates about infrastructure status, maintenance, and system operations</p>
+    </div>
+    <div class="news-items">
+        {% for plugin in instance.child_plugin_instances %}
+            {% load cms_tags %}
+            {% render_plugin plugin %}
+        {% empty %}
+            <p class="text-muted">No news items yet. Add your first news item using the CMS toolbar above.</p>
+        {% endfor %}
+    </div>
+</div>
+```
+
+**News Item Template** (`djangocmsjoy/plugins/system_status_news_item.html`):
+
+```html
+{# Template for individual System Status News item #}
+<div class="news-item mb-4 p-3 border-bottom">
+    <h3 class="news-title">{{ instance.title }}</h3>
+    <div class="news-meta text-muted small mb-2">
+        <span class="news-author">By {{ instance.author.get_full_name|default:instance.author.username }}</span>
+        <span class="news-date ms-2">{{ instance.published_date|date:"F j, Y g:i A" }}</span>
+    </div>
+    <div class="news-content">
+        {{ instance.content|linebreaks }}
+    </div>
+</div>
+```
+
+**Integration News Templates:**
+Nearly identical but with different CSS classes and descriptions (`integration_news_feed.html` and `integration_news_item.html`).
+
+**Template Features:**
+- `{% load cms_tags %}` - Loads CMS template tags
+- `{% render_plugin plugin %}` - Renders child plugin using its template
+- `instance.child_plugin_instances` - List of all child plugins provided by CMS
+- `{{ instance.title }}` - Accesses model fields
+- `|linebreaks` - Django filter converting newlines to `<br>` and `<p>` tags
+- `|date:"F j, Y g:i A"` - Formats datetime (e.g., "December 4, 2025 2:30 PM")
+- Bootstrap classes (`mb-4`, `p-3`, `border-bottom`, etc.) for styling
+
+### How the System Enables Functionality
+
+#### Content Editor Workflow:
+
+1. **Navigate to CMS page** in edit mode (click "Edit Page" in toolbar)
+
+2. **Add Feed Container:**
+   - Click "+" in page placeholder
+   - Select "System Status News Feed" or "Integration News Feed"
+   - Container appears with empty state message
+
+3. **Add News Items:**
+   - Click "+" inside the container
+   - Only allowed child type appears ("System Status News Item")
+   - Fill form popup:
+     * **Title:** News headline
+     * **Content:** News body text
+     * **Author:** Select from user dropdown
+   - Click Save
+   - Published date automatically set to now
+
+4. **Add More Items:**
+   - Repeat process to add more news items
+   - Items automatically sort newest first
+   - Drag to reorder if needed
+
+5. **Edit/Delete Items:**
+   - Click pencil icon to edit
+   - Click X to delete
+   - Changes save immediately
+
+6. **Publish Page:**
+   - Click "Publish page changes"
+   - News feed now visible to public
+
+#### Behind the Scenes:
+
+When page loads, Django CMS:
+1. Finds all plugins in page placeholders
+2. Calls each plugin's `render()` method
+3. Feed plugin gathers `child_plugin_instances`
+4. Sorts children by `published_date` (newest first)
+5. Template loops through children
+6. `{% render_plugin %}` renders each child with its template
+7. Child templates access `instance.title`, `instance.content`, etc.
+8. HTML output combines into complete feed
+
+### Database Schema
+
+After running migrations, these tables exist:
+
+**djangocmsjoy_systemstatusnewsitemplugin:**
+- id (primary key)
+- cmsplugin_ptr_id (foreign key to cms_cmsplugin)
+- title (varchar 200)
+- content (text)
+- author_id (foreign key to auth_user)
+- published_date (datetime)
+
+**djangocmsjoy_integrationnewsitemplugin:**
+- Same structure as system status table
+
+**cms_cmsplugin:**
+- Built-in CMS table storing:
+  - position (order in placeholder)
+  - placeholder_id (which placeholder)
+  - language (for multilingual sites)
+  - plugin_type (class name)
+  - parent_id (for child plugins)
+
+The plugin tables have a **one-to-one relationship** with `cms_cmsplugin` via `cmsplugin_ptr_id`, inheriting CMS-specific fields while adding custom fields.
+
+### Key Enabling Features
+
+| Feature | How It Enables Functionality |
+|---------|------------------------------|
+| `@plugin_pool.register_plugin` | Makes plugin available in CMS toolbar for content editors |
+| `allow_children=True` | Creates container that can hold other plugins |
+| `child_classes` | Enforces which plugins can be added inside (prevents mixing news types) |
+| `cache=False` | Ensures news updates appear immediately without cache clearing |
+| `instance.child_plugin_instances` | CMS automatically provides list of all children |
+| `published_date` with `auto_now_add` | Automatic timestamp without editor input |
+| Inheriting `CMSPlugin` | Provides page association, position, language, plugin tree hierarchy |
+| `{% render_plugin %}` tag | Recursive rendering - each child renders with its own template |
+| `fieldsets` | Controls admin form layout - only shows relevant fields |
+| Model `ordering = ['-published_date']` | Default sort order for database queries |
+| `def __str__()` | Display text in admin interface and dropdowns |
+
+### Commands for Creating Plugins
+
+#### 1. Create Plugin Models
+
+Add to `djangocmsjoy/models.py`:
+
+```bash
+# No special command - just edit the file
+```
+
+#### 2. Create Database Tables
+
+After adding models:
+
+```bash
+uv run python djangocmsjoy/manage.py makemigrations
+uv run python djangocmsjoy/manage.py migrate
+```
+
+#### 3. Create Plugin Classes
+
+Add to `djangocmsjoy/cms_plugins.py`:
+
+```bash
+# No special command - just edit the file
+```
+
+#### 4. Create Plugin Templates
+
+Create files in `djangocmsjoy/templates/djangocmsjoy/plugins/`:
+
+```bash
+mkdir -p djangocmsjoy/templates/djangocmsjoy/plugins
+touch djangocmsjoy/templates/djangocmsjoy/plugins/system_status_news_feed.html
+touch djangocmsjoy/templates/djangocmsjoy/plugins/system_status_news_item.html
+touch djangocmsjoy/templates/djangocmsjoy/plugins/integration_news_feed.html
+touch djangocmsjoy/templates/djangocmsjoy/plugins/integration_news_item.html
+```
+
+#### 5. Restart Development Server
+
+After creating plugins:
+
+```bash
+# Stop server (Ctrl+C) and restart
+uv run python djangocmsjoy/manage.py runserver
+```
+
+Django CMS automatically detects registered plugins on startup.
+
+#### 6. Verify Plugins Available
+
+Check CMS toolbar:
+1. Navigate to any CMS page
+2. Enter edit mode
+3. Click "+" in a placeholder
+4. Look for plugin names in dropdown
+
+Or check in Django shell:
+
+```bash
+uv run python djangocmsjoy/manage.py shell
+```
+
+```python
+from cms.plugin_pool import plugin_pool
+print(plugin_pool.get_all_plugins())
+# Should list your custom plugins
+```
+
+### Testing Custom Plugins
+
+#### Unit Test Example
+
+Create `djangocmsjoy/tests/test_plugins.py`:
+
+```python
+from django.test import TestCase
+from django.contrib.auth.models import User
+from cms.api import create_page, add_plugin
+from cms.models import Placeholder
+from djangocmsjoy.models import SystemStatusNewsItemPlugin
+
+
+class NewsPluginTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('testuser', 'test@test.com', 'pass')
+        self.page = create_page(
+            title='Test Page',
+            template='page.html',
+            language='en'
+        )
+        self.placeholder = self.page.placeholders.get(slot='content')
+    
+    def test_news_feed_plugin_creation(self):
+        """Test creating a news feed container plugin"""
+        feed_plugin = add_plugin(
+            self.placeholder,
+            'SystemStatusNewsFeedPlugin',
+            'en'
+        )
+        self.assertEqual(feed_plugin.plugin_type, 'SystemStatusNewsFeedPlugin')
+    
+    def test_news_item_plugin_creation(self):
+        """Test creating a news item plugin"""
+        feed_plugin = add_plugin(
+            self.placeholder,
+            'SystemStatusNewsFeedPlugin',
+            'en'
+        )
+        
+        item_plugin = add_plugin(
+            self.placeholder,
+            'SystemStatusNewsItemPluginPublisher',
+            'en',
+            target=feed_plugin,
+            title='Test News',
+            content='Test content',
+            author=self.user
+        )
+        
+        self.assertEqual(item_plugin.title, 'Test News')
+        self.assertEqual(item_plugin.author, self.user)
+    
+    def test_news_items_sorted_by_date(self):
+        """Test that news items are sorted newest first"""
+        feed_plugin = add_plugin(
+            self.placeholder,
+            'SystemStatusNewsFeedPlugin',
+            'en'
+        )
+        
+        # Create two items
+        item1 = add_plugin(
+            self.placeholder,
+            'SystemStatusNewsItemPluginPublisher',
+            'en',
+            target=feed_plugin,
+            title='Older News',
+            content='Content',
+            author=self.user
+        )
+        
+        item2 = add_plugin(
+            self.placeholder,
+            'SystemStatusNewsItemPluginPublisher',
+            'en',
+            target=feed_plugin,
+            title='Newer News',
+            content='Content',
+            author=self.user
+        )
+        
+        # Get plugin instance and check order
+        from djangocmsjoy.cms_plugins import SystemStatusNewsFeedPlugin
+        plugin_instance = SystemStatusNewsFeedPlugin()
+        context = {}
+        rendered_context = plugin_instance.render(context, feed_plugin, self.placeholder)
+        
+        news_items = rendered_context['news_items']
+        self.assertEqual(news_items[0].title, 'Newer News')
+        self.assertEqual(news_items[1].title, 'Older News')
+```
+
+#### Run Tests
+
+```bash
+uv run python djangocmsjoy/manage.py test djangocmsjoy.tests.test_plugins
+```
+
+### Troubleshooting
+
+**Plugin doesn't appear in toolbar:**
+- Check `@plugin_pool.register_plugin` decorator is present
+- Verify `cms_plugins.py` is in app directory
+- Ensure app is in `INSTALLED_APPS` in settings.py
+- Restart development server
+- Clear browser cache
+
+**Form fields not showing:**
+- Check `fieldsets` configuration in plugin class
+- Verify model fields exist and are not auto-generated
+- Look for typos in field names
+
+**Template not rendering:**
+- Verify `render_template` path matches actual file location
+- Check template directory is in `TEMPLATES['DIRS']` or app `templates/` folder
+- Look for template syntax errors
+- Check Django template loader can find the file
+
+**Children not displaying:**
+- Verify `allow_children = True` on parent plugin
+- Check `child_classes` list has correct plugin class names (not model names)
+- Ensure `{% render_plugin %}` tag is in parent template
+- Verify `{% load cms_tags %}` is present
+
+**Data not saving:**
+- Run `makemigrations` and `migrate` after creating/changing models
+- Check model field definitions match form fields
+- Look for database errors in console
+- Verify foreign key relationships (User model)
+
+**Items not sorted correctly:**
+- Check `Meta.ordering` in model
+- Verify `sort()` logic in `render()` method
+- Ensure `published_date` field has values
+- Check `reverse=True` for descending order
+
+**Plugin crashes page:**
+- Check server console for Python errors
+- Verify all model instances have required fields
+- Test `__str__()` method doesn't crash
+- Check for None values in foreign keys
+
+### Advanced: Customizing Plugin Behavior
+
+#### Adding Configuration Options
+
+Make feed plugin configurable (show N most recent items):
+
+```python
+class SystemStatusNewsFeedConfig(CMSPlugin):
+    """Configuration for news feed display"""
+    max_items = models.IntegerField(default=10, help_text="Maximum items to display")
+
+
+@plugin_pool.register_plugin
+class SystemStatusNewsFeedPlugin(CMSPluginBase):
+    model = SystemStatusNewsFeedConfig  # Use config model instead of CMSPlugin
+    name = "System Status News Feed"
+    render_template = "djangocmsjoy/plugins/system_status_news_feed.html"
+    cache = False
+    allow_children = True
+    child_classes = ['SystemStatusNewsItemPluginPublisher']
+    
+    fieldsets = [
+        (None, {
+            'fields': ('max_items',)
+        }),
+    ]
+    
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        children = instance.child_plugin_instances or []
+        news_items = [child for child in children if isinstance(child, SystemStatusNewsItemPlugin)]
+        news_items.sort(key=lambda x: x.published_date, reverse=True)
+        
+        # Limit to configured number
+        context['news_items'] = news_items[:instance.max_items]
+        return context
+```
+
+#### Adding Rich Text Support
+
+Install CKEditor plugin:
+
+```bash
+uv add djangocms-text-ckeditor
+```
+
+Update model:
+
+```python
+from djangocms_text_ckeditor.fields import HTMLField
+
+class SystemStatusNewsItemPlugin(CMSPlugin):
+    title = models.CharField(max_length=200)
+    content = HTMLField()  # Rich text instead of TextField
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    published_date = models.DateTimeField(auto_now_add=True)
+```
+
+Update template:
+
+```html
+<div class="news-content">
+    {{ instance.content|safe }}  {# |safe renders HTML, not escaped text #}
+</div>
+```
+
+#### Adding Image Support
+
+Using Django Filer:
+
+```bash
+uv add django-filer easy-thumbnails
+```
+
+Update model:
+
+```python
+from filer.fields.image import FilerImageField
+
+class SystemStatusNewsItemPlugin(CMSPlugin):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    image = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    published_date = models.DateTimeField(auto_now_add=True)
+```
+
+Update template:
+
+```html
+<div class="news-item mb-4 p-3 border-bottom">
+    {% if instance.image %}
+        <img src="{{ instance.image.url }}" alt="{{ instance.title }}" class="img-fluid mb-2">
+    {% endif %}
+    <h3 class="news-title">{{ instance.title }}</h3>
+    <!-- ... rest of template ... -->
+</div>
+```
+
+### Production Alternative: djangocms-blog
+
+For production deployments, consider using the battle-tested **djangocms-blog** package instead of custom plugins:
+
+```bash
+uv add djangocms-blog
+```
+
+**Advantages:**
+- SEO optimization (meta tags, Open Graph, Twitter cards)
+- Multi-language support
+- Categories and tags
+- RSS feeds
+- Author profiles
+- Archive views
+- Related posts
+- Sitemap integration
+- Wizard for easy post creation
+- Active maintenance and community support
+
+**Documentation:** https://djangocms-blog.readthedocs.io/
+
+The custom plugins in this project are excellent for learning CMS plugin development, but djangocms-blog offers more features and has been tested in production environments.
+
+---
+
+**Document Version:** 1.5  
+**Last Updated:** December 4, 2025  
 **Maintained By:** ACCESS Operations Team

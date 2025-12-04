@@ -55,27 +55,34 @@
 }
     
 body {
-   font:normal 14px Archivo, Verdana, Helvetica;
+   font: normal 14px Archivo, Verdana, Helvetica;
+   color: #333;
+   background-color: #fff;
 }
 
 h1 {
-    font-size: 36px
+    font-size: 36px;
+    color: #333;
 }
 
 h2 {
-    font-size: 24px
+    font-size: 24px;
+    color: #333;
 }
 
 h3 {
-    font-size: 20px
+    font-size: 20px;
+    color: #333;
 }
 
 h4 {
-    font-size: 18px
+    font-size: 18px;
+    color: #333;
 }
 
 h5 {
-    font-size: 16px
+    font-size: 16px;
+    color: #333;
 }
 
 .access-intro {
