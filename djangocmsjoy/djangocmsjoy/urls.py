@@ -25,6 +25,14 @@ urlpatterns = [
     path('', include('cms.urls')),  # CMS pages - keep this last as catch-all
 ]
 
+# Add filer URLs for media management
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('filer/', include('filer.urls')),
+    path('', include('djangocmsjoy.app_urls')),  # Application views (news, services, etc.)
+    path('', include('cms.urls')),  # CMS pages - keep this last as catch-all
+]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

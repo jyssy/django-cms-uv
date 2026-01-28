@@ -1,13 +1,73 @@
 # Development Processes for Django CMS - Localhost
 
 **Project:** ACCESS Operations Portal Django CMS  
-**Date:** December 3, 2025  
+**Last Updated:** January 28, 2026  
 **Environment:** Local Development (macOS)  
-**Python:** 3.13 with UV package manager  
-**Django:** 5.2.9  
+**Python:** 3.12+ with UV package manager  
+**Django:** 5.2  
 **Django CMS:** 5.0  
 **Database:** PostgreSQL 15  
 **Code Assistant:** Claude Sonnet 4.5
+
+## Recent Updates (January 28, 2026)
+
+### Enhanced Django CMS Setup - Drupal Migration Ready
+
+The Django CMS demo has been significantly enhanced to mirror the existing Drupal Operations Portal:
+
+#### 🎨 **New Template System**
+- **Enhanced Base Template** - Fully redesigned base.html matching Drupal structure:
+  - Bootstrap 5.3.3 integration via CDN
+  - ACCESS Operations branding with NSF logo
+  - Universal navigation menus using @access-ci/ui components
+  - Proper breadcrumb navigation
+  - Skip-to-content accessibility link
+  - Responsive header/footer matching Drupal design
+
+#### 📄 **New Page Templates**
+1. **infrastructure.html** - Infrastructure Integration page template
+   - Mirrors `/pub/access-infrastructure-integration` from Drupal
+   - Multi-column layout with infrastructure class cards
+   - HPC, Storage, Cloud, and Science Gateway sections
+   - Bootstrap icons integration
+   
+2. **blog.html** - Blog post template for djangocms-blog
+   - Featured image placeholder
+   - Author info section
+   - Related posts area
+   - Tags and categories support
+   
+3. **Simplified page.html** - Clean single-column layout
+4. **Enhanced feature.html** - Two-column hero section with content
+
+#### 📦 **New Dependencies Added**
+```toml
+djangocms-text-ckeditor>=5.1.0  # Rich text editor
+djangocms-blog>=2.0.0           # Production-ready blog system
+djangocms-picture>=4.0.0        # Image management
+djangocms-file>=4.0.0           # File uploads
+djangocms-link>=3.1.0           # Link plugin
+djangocms-video>=3.0.0          # Video embeds
+django-filer>=3.1.0             # Advanced media library
+easy-thumbnails>=2.8.0          # Image thumbnailing
+django-taggit>=5.0.0            # Tagging system
+```
+
+#### ⚙️ **Settings Configuration**
+New settings added for:
+- Blog post pagination and excerpts
+- Thumbnail generation and processing
+- CKEditor image handling
+- Meta tags for SEO (Open Graph, Twitter Cards)
+- Four CMS templates: Page, Feature, Infrastructure, Blog
+
+#### 🎯 **Key Features**
+- **Drupal Parity**: Templates match Drupal's layout and structure
+- **Bootstrap 5**: Modern responsive design framework
+- **ACCESS Branding**: Official color scheme and fonts (Archivo)
+- **CDN Assets**: External resources for ACCESS UI components
+- **Blog System**: Full-featured djangocms-blog plugin installed
+- **Media Management**: Django Filer for advanced file handling
 
 ---
 
@@ -26,11 +86,20 @@
 - **django-formtools** - Form wizard and preview utilities used by CMS
 
 ### CMS Plugins
-- **djangocms-text** - Rich text editor plugin with CKEditor 5
-- **djangocms-picture** - Image/picture plugin for adding images to CMS pages
-- **djangocms-link** - Link plugin for internal and external links
-- **djangocms-file** - File upload and download plugin
-- **djangocms-video** - Video embedding plugin
+- **djangocms-text-ckeditor 5.1+** - Rich text editor plugin with CKEditor 5
+- **djangocms-picture 4.0+** - Image/picture plugin for adding images to CMS pages
+- **djangocms-link 3.1+** - Link plugin for internal and external links
+- **djangocms-file 4.0+** - File upload and download plugin
+- **djangocms-video 3.0+** - Video embedding plugin
+- **djangocms-blog 2.0+** - Production-ready blog/news system
+  - Includes: categories, tags, authors, SEO meta tags
+  - Multi-language support
+  - RSS feeds and archive views
+
+### Media Management
+- **django-filer 3.1+** - Advanced media library and file management
+- **easy-thumbnails 2.8+** - Automatic image thumbnail generation
+- **django-taggit 5.0+** - Tagging framework for blog posts
 
 ### UI Framework
 - **django-bootstrap5 25.0+** - Bootstrap 5 integration for Django templates
@@ -156,6 +225,7 @@
 15. [Template Tag and Static File Troubleshooting](#15-template-tag-and-static-file-troubleshooting)
 16. [Design Integration: Bootstrap, ACCESS Branding, and Theming](#16-design-integration-bootstrap-access-branding-and-theming)
 17. [Custom Django CMS Plugins: News Feed System](#17-custom-django-cms-plugins-news-feed-system)
+18. [Drupal to Django CMS Migration - Enhanced Templates](#18-drupal-to-django-cms-migration---enhanced-templates)
 
 ---
 
@@ -5094,6 +5164,351 @@ The custom plugins in this project are excellent for learning CMS plugin develop
 
 ---
 
-**Document Version:** 1.5  
-**Last Updated:** December 4, 2025  
-**Maintained By:** ACCESS Operations Team
+## 18. Drupal to Django CMS Migration - Enhanced Templates
+
+### Overview
+
+On January 28, 2026, we enhanced the Django CMS setup to closely mirror the existing Drupal Operations Portal, preparing for eventual migration from Drupal to Django CMS. The enhancements focus on matching the look, feel, and structure of the current Drupal site.
+
+### Template Architecture
+
+#### Base Template Enhancement
+
+The new [base.html](djangocmsjoy/templates/base.html) template provides:
+
+**Header Structure:**
+- NSF logo with link to nsf.gov
+- Vertical divider graphic (ACCESS-pipe.svg)
+- ACCESS Operations branding logo
+- Main navigation menu (Integration News, System Status News)
+- Universal menus integration placeholder
+
+**Navigation:**
+- Bootstrap 5 navbar with responsive collapse
+- CMS menu integration via `{% show_menu %}` tag
+- Active page highlighting
+- Dropdown support for nested pages
+
+**Breadcrumbs:**
+- Accessible breadcrumb navigation
+- Home link + current page
+- Overridable via `{% block breadcrumb_items %}`
+
+**Footer:**
+- About ACCESS section with NSF award numbers
+- Quick links column
+- Resources column
+- Utility links (Policies, Privacy, Code of Conduct)
+- Copyright notice with dynamic year
+
+**External Components:**
+- ACCESS UI components from @access-ci/ui@0.15.0 CDN
+- Bootstrap 5.3.3 via CDN
+- Bootstrap Icons 1.11.3
+- Google Fonts (Archivo family)
+
+#### Page Templates
+
+1. **page.html** - Simple content page
+   ```django
+   {% extends "base.html" %}
+   Single placeholder for flexible content
+   ```
+
+2. **feature.html** - Hero section with sidebar
+   ```django
+   Two placeholders: feature_content (8 col) + feature_image (4 col)
+   Plus main content area below
+   ```
+
+3. **infrastructure.html** - Infrastructure Integration page
+   ```django
+   Mirrors Drupal's /pub/access-infrastructure-integration
+   - Lead paragraph + hero image
+   - Additional Information buttons
+   - Four infrastructure class cards:
+     * High-Performance Computing (HPC)
+     * Storage
+     * Cloud Infrastructure
+     * Science Gateways
+   - Each card has icon, description, and roadmap links
+   ```
+
+4. **blog.html** - Blog post template
+   ```django
+   Full blog post layout:
+   - Post header with title and date
+   - Featured image placeholder
+   - Content area
+   - Tags/categories
+   - Author info card
+   - Related posts section
+   ```
+
+### Django Settings Updates
+
+#### New Installed Apps
+```python
+INSTALLED_APPS = [
+    'djangocms_admin_style',
+    'django.contrib.admin',
+    # ... standard Django apps ...
+    'cms',
+    'menus',
+    'treebeard',
+    'sekizai',
+    'django_bootstrap5',
+    'djangocmsjoy',
+    # NEW: CMS Plugins
+    'djangocms_text_ckeditor',
+    'djangocms_picture',
+    'djangocms_file',
+    'djangocms_link',
+    'djangocms_video',
+    # NEW: Media Management
+    'filer',
+    'easy_thumbnails',
+    'mptt',
+    # NEW: Blog System
+    'djangocms_blog',
+    'taggit',
+    'taggit_autosuggest',
+    'meta',
+]
+```
+
+#### CMS Template Configuration
+```python
+CMS_TEMPLATES = [
+    ('page.html', 'Page'),
+    ('feature.html', 'Page with Feature'),
+    ('infrastructure.html', 'Infrastructure Integration'),
+    ('blog.html', 'Blog Post'),
+]
+```
+
+#### Blog Settings
+```python
+META_SITE_PROTOCOL = 'http'
+META_USE_SITES = True
+META_USE_OG_PROPERTIES = True
+META_USE_TWITTER_PROPERTIES = True
+
+BLOG_ENABLE_COMMENTS = False
+BLOG_USE_PLACEHOLDER = True
+BLOG_IMAGE_THUMBNAIL_SIZE = {'size': '800x450', 'crop': True}
+BLOG_IMAGE_FULL_SIZE = {'size': '1200x675', 'crop': True}
+BLOG_PAGINATION = 10
+BLOG_LATEST_POSTS = 5
+BLOG_POSTS_LIST_TRUNCWORDS_COUNT = 100
+```
+
+#### Thumbnail Configuration
+```python
+THUMBNAIL_HIGH_RESOLUTION = True
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+THUMBNAIL_PRESERVE_EXTENSIONS = True
+THUMBNAIL_ALIASES = {
+    '': {
+        'default': {'size': (300, 300), 'crop': True},
+        'large': {'size': (800, 600), 'crop': False},
+    },
+}
+```
+
+### Installation and Setup
+
+#### 1. Update Dependencies
+
+```bash
+# Update pyproject.toml with new packages (already done)
+cd /Users/jelambeadmin/Documents/access-sysops/django-cms-uv
+
+# Sync dependencies
+uv sync
+```
+
+#### 2. Run Migrations
+
+```bash
+# Navigate to project directory
+cd djangocmsjoy
+
+# Run migrations for new apps
+uv run python manage.py migrate
+
+# Create media directory if needed
+mkdir -p media
+```
+
+#### 3. Collect Static Files
+
+```bash
+# Collect all static files including new plugin assets
+uv run python manage.py collectstatic --noinput
+```
+
+#### 4. Start Development Server
+
+```bash
+# Run server
+uv run python manage.py runserver
+
+# Access at: http://localhost:8000
+# Admin at: http://localhost:8000/admin
+```
+
+### Creating Sample Content
+
+#### Infrastructure Integration Page
+
+1. Log into admin: http://localhost:8000/admin
+2. Go to Django CMS → Pages
+3. Create new page:
+   - Title: "ACCESS Infrastructure Integration"
+   - Template: "Infrastructure Integration"
+   - URL: `/pub/access-infrastructure-integration`
+4. The template includes default content matching Drupal
+5. Optionally add hero image via the "hero_image" placeholder
+
+#### Blog Post
+
+1. Go to Djangocms Blog → Posts
+2. Create new post
+3. Template automatically uses blog.html
+4. Add featured image, content, tags
+5. Publish
+
+### Styling and Branding
+
+#### ACCESS Color Scheme
+```css
+:root {
+    --teal-050: #ECF9F8;
+    --teal-100: #D5F3F0;
+    --teal-400: #4DB8A8;
+    --teal-600: #138597;  /* Primary brand color */
+    --teal-700: #1A5B6E;
+    --yellow-400: #FFC42D;
+    --orange-400: #FF8C42;
+    --contrast: #232323;  /* Text color */
+}
+```
+
+#### Typography
+- **Font Family:** "Archivo" (Google Fonts)
+- **Loaded via CDN in base template**
+
+#### Bootstrap Customization
+- Uses Bootstrap 5.3.3 via CDN
+- Custom button colors using ACCESS teal
+- Responsive breakpoints match Drupal design
+
+### Comparing to Drupal
+
+#### Similarities
+✅ Same header layout with NSF + ACCESS logos  
+✅ Same navigation structure  
+✅ Matching breadcrumb navigation  
+✅ Same footer layout and content  
+✅ ACCESS UI components integration  
+✅ Responsive design with Bootstrap  
+✅ Infrastructure class cards layout  
+
+#### Differences
+⚠️ Django CMS uses placeholders vs Drupal blocks  
+⚠️ Blog system is djangocms-blog vs Drupal nodes  
+⚠️ Media management via Filer vs Drupal media  
+⚠️ URL routing differs (Django URLs vs Drupal paths)  
+
+#### Migration Advantages
+✨ Modern Python/Django stack  
+✨ Better performance (Python vs PHP)  
+✨ Integrated admin interface  
+✨ Version control friendly (code-based config)  
+✨ Better developer experience  
+✨ Active Django CMS community  
+
+### Next Steps for Full Migration
+
+1. **Content Audit**
+   - Export all Drupal content
+   - Map Drupal content types to Django models
+   - Identify custom Drupal modules to replicate
+
+2. **Media Migration**
+   - Export Drupal media library
+   - Import into Django Filer
+   - Update image references
+
+3. **User Migration**
+   - Export Drupal users
+   - Create Django user accounts
+   - Map permissions and roles
+
+4. **URL Preservation**
+   - Map all Drupal URLs
+   - Create redirects in Django
+   - Maintain SEO rankings
+
+5. **Testing**
+   - Content parity verification
+   - Functionality testing
+   - Performance benchmarking
+   - Accessibility audit
+
+6. **Deployment**
+   - Set up production server
+   - Configure CDN
+   - DNS cutover
+   - Monitor post-launch
+
+### Troubleshooting
+
+#### Issue: Missing Static Files
+```bash
+# Collect static files
+uv run python manage.py collectstatic
+```
+
+#### Issue: Media Upload Errors
+```bash
+# Ensure media directory exists and is writable
+mkdir -p media
+chmod 755 media
+```
+
+#### Issue: Blog Plugin Not Showing
+```bash
+# Verify installation
+uv run python manage.py shell
+>>> import djangocms_blog
+>>> print(djangocms_blog.__version__)
+```
+
+#### Issue: Templates Not Found
+```bash
+# Check template configuration in settings.py
+# Ensure templates directory exists
+ls djangocmsjoy/templates/
+```
+
+### Resources
+
+- **Django CMS Docs:** https://docs.django-cms.org/
+- **djangocms-blog Docs:** https://djangocms-blog.readthedocs.io/
+- **Django Filer Docs:** https://django-filer.readthedocs.io/
+- **ACCESS Branding:** https://access-ci.org/brand/
+- **Bootstrap 5 Docs:** https://getbootstrap.com/docs/5.3/
+
+---
+
+**Document Version:** 2.0  
+**Last Updated:** January 28, 2026  
+**Maintained By:** ACCESS Operations Team  
+**Original Framework:** Drafted by Claude Sonnet 4.5
