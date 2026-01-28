@@ -1,17 +1,16 @@
-{% extends "web/base_nav_full.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}Operations Portal{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>ACCESS Operations Portal</h1>
+    <h1 class="text-dark">ACCESS Infrastructure Integration and Operations</h1>
     
     <div class="row mt-4">
         <div class="col-md-12">
             <p class="lead">
-                Welcome to the ACCESS Operations Portal. Monitor system status, 
-                view operational updates, and stay informed about resource changes.
+                ACCESS Operations enables ACCESS resource providers (RPs), ACCESS projects, and developers to seamlessly integrate and operate infrastructure into an expansive federation.
             </p>
         </div>
     </div>
@@ -42,7 +41,7 @@
                     <p class="card-text">
                         Check system status, maintenance schedules, and outage notifications.
                     </p>
-                    <a href="{% url 'djangocmsjoy:system_status_news' %}" class="btn btn-warning">
+                    <a href="{% url 'operations_portalcms_django:system_status_news' %}" class="btn btn-warning">
                         View System Status News
                     </a>
                 </div>
@@ -58,7 +57,7 @@
                     <p class="card-text">
                         Learn about integrations, resource connections, and new service deployments.
                     </p>
-                    <a href="{% url 'djangocmsjoy:integration_news' %}" class="btn btn-success">
+                    <a href="{% url 'operations_portalcms_django:integration_news' %}" class="btn btn-success">
                         View Integration News
                     </a>
                 </div>

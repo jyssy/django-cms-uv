@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ACCESS Active Resources | Operations{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item">
+    ACCESS Active Resources
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="views-element-container">
+    <div class="view view-access-active-resources">
+        {# Resource Actions Header #}
+        <div class="view-header">
+            <div class="container">
+                <div class="d-flex flex-row">
+                    <div class="flex-wrap p-2 pt-3"><strong>Resource Actions</strong></div>
+                    <div class="p-2">
+                        <a class="btn btn-warning mb-1 me-1" href="https://allocations.access-ci.org/" target="_blank">Request Allocations</a>
+                        <a class="btn btn-warning mb-1 me-1" href="https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview" target="_blank">View Documentation</a>
+                        <a class="btn btn-warning mb-1 me-1" href="https://support.access-ci.org/events" target="_blank">Related Training</a>
+                        <a class="btn btn-warning mb-1 me-1" href="https://metrics.access-ci.org/" target="_blank">Related Metrics</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if error_message %}
+        <div class="alert alert-warning" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ error_message }}
+        </div>
+        {% endif %}
+
+        {# View Content - Resources #}
+        <div class="view-content">
+            {% for org_name, resources in resources_by_org.items %}
+            <div class="container views-row">
+                <h3 class="js-views-accordion-group-header"><b>{{ org_name }}</b></h3>
+                
+                {% for resource in resources %}
+                <div class="container views-row">
+                    <div class="views-field views-field-title views-accordion-header">
+                        <span class="field-content">
+                            {{ resource.resource_descriptive_name|default:"Resource" }}
+                        </span>
+                    </div>
+                    
+                    {% if resource.resource_description %}
+                    <div class="views-field views-field-body">
+                        <div class="field-content">
+                            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-above">
+                                <div class="field__label">Description</div>
+                                <div class="field__item">
+                                    {{ resource.resource_description|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if resource.info_resourceid %}
+                    <div class="views-field views-field-title-1">
+                        <span class="field-content btn btn-link mt-3">
+                            <a href="/node/{{ resource.info_resourceid }}">{{ resource.resource_descriptive_name|default:"Resource" }}</a>
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% empty %}
+            <div class="container">
+                <div class="alert alert-info" role="alert">
+                    <i class="bi bi-info-circle"></i> No resources available at this time.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* View container styles matching Drupal */
+    .views-element-container {
+        width: 100%;
+    }
+    
+    .view-header {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--contrast-9);
+        padding-bottom: 1rem;
+    }
+    
+    .view-header .d-flex {
+        align-items: center;
+    }
+    
+    .view-content .container.views-row {
+        margin-bottom: 1.5rem;
+        padding: 1.25rem;
+        background-color: #fff;
+        border: 1px solid var(--contrast-9);
+        border-radius: 0.25rem;
+    }
+    
+    .view-content .container.views-row:last-child {
+        margin-bottom: 0;
+    }
+    
+    .js-views-accordion-group-header {
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid var(--teal-600);
+        color: var(--contrast-1);
+    }
+    
+    .views-field {
+        margin-bottom: 1rem;
+    }
+    
+    .views-accordion-header .field-content {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--teal-600);
+    }
+    
+    .field__label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--contrast-2);
+    }
+    
+    .field__item {
+        color: var(--contrast-3);
+        line-height: 1.6;
+    }
+    
+    .field__item p {
+        margin-bottom: 1rem;
+    }
+    
+    .field__item p:last-child {
+        margin-bottom: 0;
+    }
+    
+    .btn-primary {
+        background-color: var(--teal-600);
+        border-color: var(--teal-600);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--teal-700);
+        border-color: var(--teal-700);
+    }
+    
+    .views-field-title-1 .btn-link {
+        color: var(--teal-600);
+        text-decoration: none;
+        padding: 0;
+    }
+    
+    .views-field-title-1 .btn-link:hover {
+        color: var(--teal-700);
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

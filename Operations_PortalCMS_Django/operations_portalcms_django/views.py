@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from django.views.decorators.cache import cache_page
 from .models import SystemStatusNews, IntegrationNews
+import requests
+from collections import defaultdict
 
 
 def index(request):
@@ -9,7 +12,7 @@ def index(request):
     context = {
         'page': 'index',
     }
-    return render(request, 'djangocmsjoy/index.html', context)
+    return render(request, 'operations_portalcms_django/index.html', context)
 
 
 def system_status_news(request):
@@ -19,7 +22,7 @@ def system_status_news(request):
         'page': 'system_status_news',
         'system_status_news': news_items,
     }
-    return render(request, 'djangocmsjoy/system_status_news.html', context)
+    return render(request, 'operations_portalcms_django/system_status_news.html', context)
 
 
 def integration_news(request):
@@ -29,7 +32,7 @@ def integration_news(request):
         'page': 'integration_news',
         'integration_news': news_items,
     }
-    return render(request, 'djangocmsjoy/integration_news.html', context)
+    return render(request, 'operations_portalcms_django/integration_news.html', context)
 
 
 # Staff-only views for managing news
@@ -53,7 +56,7 @@ def add_system_status_news(request):
         return redirect('djangocmsjoy:system_status_news')
     
     context = {'page': 'system_status_news'}
-    return render(request, 'djangocmsjoy/add_system_status_news.html', context)
+    return render(request, 'operations_portalcms_django/add_system_status_news.html', context)
 
 
 @login_required
@@ -73,7 +76,7 @@ def update_system_status_news(request, pk):
         'page': 'system_status_news',
         'news': news,
     }
-    return render(request, 'djangocmsjoy/update_system_status_news.html', context)
+    return render(request, 'operations_portalcms_django/update_system_status_news.html', context)
 
 
 @login_required
@@ -92,7 +95,7 @@ def add_integration_news(request):
         return redirect('djangocmsjoy:integration_news')
     
     context = {'page': 'integration_news'}
-    return render(request, 'djangocmsjoy/add_integration_news.html', context)
+    return render(request, 'operations_portalcms_django/add_integration_news.html', context)
 
 
 @login_required
@@ -112,4 +115,52 @@ def update_integration_news(request, pk):
         'page': 'integration_news',
         'news': news,
     }
-    return render(request, 'djangocmsjoy/update_integration_news.html', context)
+    return render(request, 'operations_portalcms_django/update_integration_news.html', context)
+
+
+@cache_page(60 * 15)  # Cache for 15 minutes
+def access_allocated_resources(request):
+    """Display ACCESS allocated resources from API"""
+    api_url = 'https://operations-api.access-ci.org/wh2/cider/v1/access-active/'
+    
+    resources_by_org = defaultdict(list)
+    error_message = None
+    
+    try:
+        headers = {'Accept': 'application/json'}
+        response = requests.get(api_url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        # Check if response has content
+        if not response.content:
+            error_message = "API returned empty response"
+            resources_by_org = {}
+        else:
+            try:
+                data = response.json()
+                
+                # Group resources by organization
+                for resource in data.get('results', []):
+                    # Use organization name from the resource provider organization field
+                    org_name = resource.get('organization_name', 'Unknown Organization')
+                    if not org_name or org_name.strip() == '':
+                        org_name = 'Unknown Organization'
+                    resources_by_org[org_name].append(resource)
+                
+                # Sort organizations alphabetically
+                resources_by_org = dict(sorted(resources_by_org.items()))
+                
+            except ValueError as json_err:
+                error_message = f"Invalid JSON response: {str(json_err)}"
+                resources_by_org = {}
+        
+    except requests.RequestException as e:
+        error_message = f"Unable to fetch resources: {str(e)}"
+        resources_by_org = {}
+    
+    context = {
+        'page': 'access_allocated',
+        'resources_by_org': resources_by_org,
+        'error_message': error_message,
+    }
+    return render(request, 'operations_portalcms_django/access_allocated.html', context)

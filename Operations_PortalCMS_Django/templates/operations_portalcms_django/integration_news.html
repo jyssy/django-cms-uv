@@ -1,4 +1,4 @@
-{% extends "web/base_nav_full.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}Integration News{% endblock %}
@@ -19,7 +19,7 @@
                                 <small>Posted: {{ news.created_at|date:"F j, Y" }}</small>
                             </p>
                             {% if user.is_staff %}
-                                <a href="{% url 'djangocmsjoy:update_integration_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'operations_portalcms_django:update_integration_news' news.id %}" class="btn btn-sm btn-primary">Edit</a>
                             {% endif %}
                         </div>
                     </div>
@@ -32,7 +32,7 @@
     
     {% if user.is_staff %}
         <div class="mt-4">
-            <a href="{% url 'djangocmsjoy:add_integration_news' %}" class="btn btn-success">
+            <a href="{% url 'operations_portalcms_django:add_integration_news' %}" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Add Integration News
             </a>
         </div>

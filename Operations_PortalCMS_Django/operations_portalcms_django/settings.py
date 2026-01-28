@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'treebeard',
     'sekizai',
     'django_bootstrap5',
-    'djangocmsjoy',
+    'operations_portalcms_django',
     # Django CMS plugins
     'djangocms_text_ckeditor',
     'djangocms_picture',
@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'meta',
     'sortedm2m',
     'aldryn_apphooks_config',
-    # NOTE: Uncomment djangocms_blog after running initial migrations
     # 'djangocms_blog',
 ]
 
@@ -82,7 +81,7 @@ MIDDLEWARE = [
     'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
-ROOT_URLCONF = 'djangocmsjoy.urls'
+ROOT_URLCONF = 'operations_portalcms_django.urls'
 
 TEMPLATES = [
     {
@@ -105,7 +104,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangocmsjoy.wsgi.application'
+WSGI_APPLICATION = 'operations_portalcms_django.wsgi.application'
 
 
 # Database

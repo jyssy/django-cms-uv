@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('cms', '0041_alter_pageurl_unique_together_pageurl_site_and_more'),
-        ('djangocmsjoy', '0003_remove_accessnews_model'),
+        ('operations_portalcms_django', '0003_remove_accessnews_model'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

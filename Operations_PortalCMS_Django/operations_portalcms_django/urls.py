@@ -1,5 +1,5 @@
 """
-URL configuration for djangocmsjoy project.
+URL configuration for operations_portalcms_django project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('djangocmsjoy.app_urls')),  # Application views (news, services, etc.)
+    path('', include('operations_portalcms_django.app_urls')),  # Application views (news, services, etc.)
     path('', include('cms.urls')),  # CMS pages - keep this last as catch-all
 ]
 
@@ -29,7 +29,7 @@ urlpatterns = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('filer/', include('filer.urls')),
-    path('', include('djangocmsjoy.app_urls')),  # Application views (news, services, etc.)
+    path('', include('operations_portalcms_django.app_urls')),  # Application views (news, services, etc.)
     path('', include('cms.urls')),  # CMS pages - keep this last as catch-all
 ]
 

@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('djangocmsjoy', '0002_rename_news_models'),
+        ('operations_portalcms_django', '0002_rename_news_models'),
     ]
 
     operations = [

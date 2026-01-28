@@ -12,7 +12,7 @@ class SystemStatusNewsItemPluginPublisher(CMSPluginBase):
     """CMS Plugin for adding System Status News items"""
     model = SystemStatusNewsItemPlugin
     name = "System Status News Item"
-    render_template = "djangocmsjoy/plugins/system_status_news_item.html"
+    render_template = "operations_portalcms_django/plugins/system_status_news_item.html"
     cache = False
     
     fieldsets = [
@@ -32,7 +32,7 @@ class IntegrationNewsItemPluginPublisher(CMSPluginBase):
     """CMS Plugin for adding Integration News items"""
     model = IntegrationNewsItemPlugin
     name = "Integration News Item"
-    render_template = "djangocmsjoy/plugins/integration_news_item.html"
+    render_template = "operations_portalcms_django/plugins/integration_news_item.html"
     cache = False
     
     fieldsets = [
@@ -52,7 +52,7 @@ class SystemStatusNewsFeedPlugin(CMSPluginBase):
     """CMS Plugin to display all System Status News items in chronological order"""
     model = CMSPlugin
     name = "System Status News Feed"
-    render_template = "djangocmsjoy/plugins/system_status_news_feed.html"
+    render_template = "operations_portalcms_django/plugins/system_status_news_feed.html"
     cache = False
     allow_children = True
     child_classes = ['SystemStatusNewsItemPluginPublisher']
@@ -72,7 +72,7 @@ class IntegrationNewsFeedPlugin(CMSPluginBase):
     """CMS Plugin to display all Integration News items in chronological order"""
     model = CMSPlugin
     name = "Integration News Feed"
-    render_template = "djangocmsjoy/plugins/integration_news_feed.html"
+    render_template = "operations_portalcms_django/plugins/integration_news_feed.html"
     cache = False
     allow_children = True
     child_classes = ['IntegrationNewsItemPluginPublisher']

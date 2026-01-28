@@ -16,7 +16,7 @@ class SystemStatusNews(models.Model):
         ordering = ['-created_at']
         verbose_name = 'System Status News'
         verbose_name_plural = 'System Status News'
-        db_table = 'djangocmsjoy_systemstatusnews'
+        db_table = 'operations_portalcms_django_systemstatusnews'
     
     def __str__(self):
         return self.title
@@ -35,7 +35,7 @@ class IntegrationNews(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Integration News'
         verbose_name_plural = 'Integration News'
-        db_table = 'djangocmsjoy_integrationnews'
+        db_table = 'operations_portalcms_django_integrationnews'
     
     def __str__(self):
         return self.title
