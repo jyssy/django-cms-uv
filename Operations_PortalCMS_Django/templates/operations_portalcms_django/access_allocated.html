@@ -10,163 +10,76 @@
 {% endblock %}
 
 {% block content %}
-<div class="views-element-container">
-    <div class="view view-access-active-resources">
-        {# Resource Actions Header #}
-        <div class="view-header">
-            <div class="container">
-                <div class="d-flex flex-row">
-                    <div class="flex-wrap p-2 pt-3"><strong>Resource Actions</strong></div>
-                    <div class="p-2">
-                        <a class="btn btn-warning mb-1 me-1" href="https://allocations.access-ci.org/" target="_blank">Request Allocations</a>
-                        <a class="btn btn-warning mb-1 me-1" href="https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview" target="_blank">View Documentation</a>
-                        <a class="btn btn-warning mb-1 me-1" href="https://support.access-ci.org/events" target="_blank">Related Training</a>
-                        <a class="btn btn-warning mb-1 me-1" href="https://metrics.access-ci.org/" target="_blank">Related Metrics</a>
-                    </div>
-                </div>
+<div class="container-fluid">
+    {# Resource Actions Header #}
+    <div class="resource-actions-header mb-4">
+        <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+            <div class="flex-shrink-0">
+                <strong class="fs-5">Resource Actions</strong>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-access-primary" href="https://allocations.access-ci.org/" target="_blank">Request Allocations</a>
+                <a class="btn btn-access-primary" href="https://access-ci.atlassian.net/wiki/spaces/ACCESSdocumentation/overview" target="_blank">View Documentation</a>
+                <a class="btn btn-access-primary" href="https://support.access-ci.org/events" target="_blank">Related Training</a>
+                <a class="btn btn-access-primary" href="https://metrics.access-ci.org/" target="_blank">Related Metrics</a>
             </div>
         </div>
+    </div>
 
-        {% if error_message %}
-        <div class="alert alert-warning" role="alert">
-            <i class="bi bi-exclamation-triangle"></i> {{ error_message }}
-        </div>
-        {% endif %}
+    {% if error_message %}
+    <div class="alert alert-warning" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> {{ error_message }}
+    </div>
+    {% endif %}
 
-        {# View Content - Resources #}
-        <div class="view-content">
-            {% for org_name, resources in resources_by_org.items %}
-            <div class="container views-row">
-                <h3 class="js-views-accordion-group-header"><b>{{ org_name }}</b></h3>
-                
-                {% for resource in resources %}
-                <div class="container views-row">
-                    <div class="views-field views-field-title views-accordion-header">
-                        <span class="field-content">
-                            {{ resource.resource_descriptive_name|default:"Resource" }}
-                        </span>
-                    </div>
-                    
-                    {% if resource.resource_description %}
-                    <div class="views-field views-field-body">
-                        <div class="field-content">
-                            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-above">
-                                <div class="field__label">Description</div>
-                                <div class="field__item">
-                                    {{ resource.resource_description|safe }}
-                                </div>
+    {# Resources organized by organization #}
+    {% for org_name, resources in resources_by_org.items %}
+    <div class="organization-section mb-4">
+        {# Organization Header - Always Visible #}
+        <h3 class="organization-header"><strong>{{ org_name }}</strong></h3>
+        
+        {# Resources Accordion for this Organization #}
+        <div class="accordion accordion-flush" id="accordion-org-{{ forloop.counter }}">
+            {% for resource in resources %}
+            <div class="accordion-item">
+                <h4 class="accordion-header" id="heading-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
+                    <button class="accordion-button collapsed" type="button" 
+                            data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" 
+                            aria-expanded="false" aria-controls="collapse-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
+                        {{ resource.resource_descriptive_name|default:"Resource" }}
+                    </button>
+                </h4>
+                <div id="collapse-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" 
+                     class="accordion-collapse collapse" 
+                     aria-labelledby="heading-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" 
+                     data-bs-parent="#accordion-org-{{ forloop.parentloop.counter }}">
+                    <div class="accordion-body">
+                        {% if resource.resource_description %}
+                        <div class="resource-description mb-3">
+                            <h5 class="description-label">Description</h5>
+                            <div class="description-content">
+                                {{ resource.resource_description|safe }}
                             </div>
                         </div>
-                    </div>
-                    {% endif %}
-                    
-                    {% if resource.info_resourceid %}
-                    <div class="views-field views-field-title-1">
-                        <span class="field-content btn btn-link mt-3">
-                            <a href="/node/{{ resource.info_resourceid }}">{{ resource.resource_descriptive_name|default:"Resource" }}</a>
-                        </span>
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
+                        {% endif %}
+                        
+                        {% if resource.info_resourceid %}
+                        <div class="mt-3">
+                            <a class="btn btn-link resource-link" href="https://operations.access-ci.org/node/{{ resource.info_resourceid }}" target="_blank">
+                                {{ resource.resource_descriptive_name|default:"View Resource" }}
+                            </a>
                         </div>
+                        {% endif %}
                     </div>
-                </div>
-                </div>
-            {% empty %}
-            <div class="container">
-                <div class="alert alert-info" role="alert">
-                    <i class="bi bi-info-circle"></i> No resources available at this time.
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
+    {% empty %}
+    <div class="alert alert-info" role="alert">
+        <i class="bi bi-info-circle"></i> No resources available at this time.
+    </div>
+    {% endfor %}
 </div>
-
-<style>
-    /* View container styles matching Drupal */
-    .views-element-container {
-        width: 100%;
-    }
-    
-    .view-header {
-        margin-bottom: 2rem;
-        border-bottom: 1px solid var(--contrast-9);
-        padding-bottom: 1rem;
-    }
-    
-    .view-header .d-flex {
-        align-items: center;
-    }
-    
-    .view-content .container.views-row {
-        margin-bottom: 1.5rem;
-        padding: 1.25rem;
-        background-color: #fff;
-        border: 1px solid var(--contrast-9);
-        border-radius: 0.25rem;
-    }
-    
-    .view-content .container.views-row:last-child {
-        margin-bottom: 0;
-    }
-    
-    .js-views-accordion-group-header {
-        margin-bottom: 1.25rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 2px solid var(--teal-600);
-        color: var(--contrast-1);
-    }
-    
-    .views-field {
-        margin-bottom: 1rem;
-    }
-    
-    .views-accordion-header .field-content {
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: var(--teal-600);
-    }
-    
-    .field__label {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: var(--contrast-2);
-    }
-    
-    .field__item {
-        color: var(--contrast-3);
-        line-height: 1.6;
-    }
-    
-    .field__item p {
-        margin-bottom: 1rem;
-    }
-    
-    .field__item p:last-child {
-        margin-bottom: 0;
-    }
-    
-    .btn-primary {
-        background-color: var(--teal-600);
-        border-color: var(--teal-600);
-    }
-    
-    .btn-primary:hover {
-        background-color: var(--teal-700);
-        border-color: var(--teal-700);
-    }
-    
-    .views-field-title-1 .btn-link {
-        color: var(--teal-600);
-        text-decoration: none;
-        padding: 0;
-    }
-    
-    .views-field-title-1 .btn-link:hover {
-        color: var(--teal-700);
-        text-decoration: underline;
-    }
-</style>
 {% endblock %}

@@ -3,6 +3,15 @@ revision = 3
 requires-python = "==3.12.*"
 
 [[package]]
+name = "access-django-user-admin"
+version = "1.5.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/85/bd/00fea3553bc431ef1729e0ad172587ba654fe3c2d4eab896cd8432201786/access_django_user_admin-1.5.3.tar.gz", hash = "sha256:ea7d99a285af69730683e4aadec4533faea3880099027ea054c649ea1d0a8e66", size = 129568, upload-time = "2026-01-09T13:25:29.39Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b5/ad/c10a3224a451afc580efadc517f6e68df44c60c1d9a5f485fda69419e4ef/access_django_user_admin-1.5.3-py3-none-any.whl", hash = "sha256:b3622911861e63eae9b8d8c0aac16c4e84ef46c0f4ff5bb6dd5be68f96c6568a", size = 130546, upload-time = "2026-01-09T13:25:28.522Z" },
+]
+
+[[package]]
 name = "aldryn-apphooks-config"
 version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -518,58 +527,6 @@ wheels = [
 ]
 
 [[package]]
-name = "djangocmsjoy"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "django" },
-    { name = "django-allauth", extra = ["socialaccount"] },
-    { name = "django-bootstrap5" },
-    { name = "django-cms" },
-    { name = "django-filer" },
-    { name = "django-mptt" },
-    { name = "django-taggit" },
-    { name = "djangocms-admin-style" },
-    { name = "djangocms-blog" },
-    { name = "djangocms-file" },
-    { name = "djangocms-link" },
-    { name = "djangocms-picture" },
-    { name = "djangocms-text-ckeditor" },
-    { name = "djangocms-video" },
-    { name = "djangorestframework" },
-    { name = "easy-thumbnails" },
-    { name = "gunicorn" },
-    { name = "psycopg2-binary" },
-    { name = "requests" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "django", specifier = ">=5.2,<5.3" },
-    { name = "django-allauth", extras = ["socialaccount"], specifier = ">=65.0,<66" },
-    { name = "django-bootstrap5", specifier = ">=25.0,<26" },
-    { name = "django-cms", specifier = ">=5.0,<5.1" },
-    { name = "django-filer", specifier = ">=3.1.0" },
-    { name = "django-mptt", specifier = ">=0.14.0" },
-    { name = "django-taggit", specifier = ">=5.0.0" },
-    { name = "djangocms-admin-style", specifier = ">=3.3" },
-    { name = "djangocms-blog", specifier = ">=2.0.0" },
-    { name = "djangocms-file", specifier = ">=3.0.0" },
-    { name = "djangocms-link", specifier = ">=3.1.0" },
-    { name = "djangocms-picture", specifier = ">=4.0.0" },
-    { name = "djangocms-text-ckeditor", specifier = ">=5.1.0" },
-    { name = "djangocms-video", specifier = ">=3.0.0" },
-    { name = "djangorestframework", specifier = ">=3.15.0" },
-    { name = "easy-thumbnails", specifier = ">=2.8.0" },
-    { name = "gunicorn", specifier = ">=23.0,<24" },
-    { name = "psycopg2-binary", specifier = ">=2.9" },
-    { name = "requests", specifier = ">=2.32.0" },
-]
-
-[package.metadata.requires-dev]
-dev = []
-
-[[package]]
 name = "djangorestframework"
 version = "3.15.0"
 source = { registry = "https://pypi.org/simple" }
@@ -698,6 +655,59 @@ wheels = [
 ]
 
 [[package]]
+name = "portalcms"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "access-django-user-admin" },
+    { name = "django" },
+    { name = "django-allauth", extra = ["socialaccount"] },
+    { name = "django-bootstrap5" },
+    { name = "django-cms" },
+    { name = "django-filer" },
+    { name = "django-mptt" },
+    { name = "django-taggit" },
+    { name = "djangocms-admin-style" },
+    { name = "djangocms-blog" },
+    { name = "djangocms-file" },
+    { name = "djangocms-link" },
+    { name = "djangocms-picture" },
+    { name = "djangocms-text-ckeditor" },
+    { name = "djangocms-video" },
+    { name = "djangorestframework" },
+    { name = "easy-thumbnails" },
+    { name = "gunicorn" },
+    { name = "psycopg2-binary" },
+    { name = "python-dotenv" },
+    { name = "requests" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "access-django-user-admin", specifier = "==1.5.3" },
+    { name = "django", specifier = ">=5.2,<5.3" },
+    { name = "django-allauth", extras = ["socialaccount"], specifier = ">=65.0,<66" },
+    { name = "django-bootstrap5", specifier = ">=25.0,<26" },
+    { name = "django-cms", specifier = ">=5.0,<5.1" },
+    { name = "django-filer", specifier = ">=3.1.0" },
+    { name = "django-mptt", specifier = ">=0.14.0" },
+    { name = "django-taggit", specifier = ">=5.0.0" },
+    { name = "djangocms-admin-style", specifier = ">=3.3" },
+    { name = "djangocms-blog", specifier = ">=2.0.0" },
+    { name = "djangocms-file", specifier = ">=3.0.0" },
+    { name = "djangocms-link", specifier = ">=3.1.0" },
+    { name = "djangocms-picture", specifier = ">=4.0.0" },
+    { name = "djangocms-text-ckeditor", specifier = ">=5.1.0" },
+    { name = "djangocms-video", specifier = ">=3.0.0" },
+    { name = "djangorestframework", specifier = ">=3.15.0" },
+    { name = "easy-thumbnails", specifier = ">=2.8.0" },
+    { name = "gunicorn", specifier = ">=23.0,<24" },
+    { name = "psycopg2-binary", specifier = ">=2.9" },
+    { name = "python-dotenv", specifier = ">=1.0.0" },
+    { name = "requests", specifier = ">=2.32.0" },
+]
+
+[[package]]
 name = "psycopg2-binary"
 version = "2.9.11"
 source = { registry = "https://pypi.org/simple" }
@@ -737,6 +747,15 @@ wheels = [
 [package.optional-dependencies]
 crypto = [
     { name = "cryptography" },
+]
+
+[[package]]
+name = "python-dotenv"
+version = "1.2.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/26/19cadc79a718c5edbec86fd4919a6b6d3f681039a2f6d66d14be94e75fb9/python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6", size = 44221, upload-time = "2025-10-26T15:12:10.434Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/1b/a298b06749107c305e1fe0f814c6c74aea7b2f1e10989cb30f544a1b3253/python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61", size = 21230, upload-time = "2025-10-26T15:12:09.109Z" },
 ]
 
 [[package]]

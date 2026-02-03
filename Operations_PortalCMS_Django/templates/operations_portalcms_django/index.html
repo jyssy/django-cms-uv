@@ -5,15 +5,39 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="text-dark">ACCESS Infrastructure Integration and Operations</h1>
-    
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <p class="lead">
+    <div class="row">
+        <div class="col-md-7 p-5">
+            <h1 class="text-dark">ACCESS Infrastructure Integration and Operations</h1>
+            <p class="mt-5 mb-5 lead">
                 ACCESS Operations enables ACCESS resource providers (RPs), ACCESS projects, and developers to seamlessly integrate and operate infrastructure into an expansive federation.
             </p>
+            <p>
+                <a class="btn btn-warning" href="/about">About ACCESS Operations</a>
+            </p>
+        </div>
+        <div class="col-md-5 p-5">
+            <img class="w-100" src="{% static 'operations_portalcms_django/img/ci-workers.png' %}" alt="ACCESS Operations Team">
         </div>
     </div>
+    
+    <div class="row bg-light text-dark mt-4">
+        <div class="col-md-5">
+            <img class="p-5 w-100" src="{% static 'operations_portalcms_django/img/community_support.png' %}" alt="Integration and Operations Help">
+        </div>
+        <div class="col-md-7">
+            <div class="p-5">
+                <h1>Integration and Operations Help</h1>
+                <p class="mt-5">
+                    ACCESS Operations and other ACCESS projects help operators integrate and operate infrastructure in ACCESS by providing documentation and by responding to support requests. Other help resources for operators include: Ask.CI Q&amp;A spaces, a community-sourced Knowledge Base, and the Campus Champions Community.
+                </p>
+                <p>
+                    <a class="btn btn-warning" href="/help">Show help resources</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 p-5"><h1 class="text-dark">Focus areas</h1></div>
     
     <div class="row mt-4">
         <div class="col-md-4">
@@ -65,13 +89,8 @@
         </div>
     </div>
     
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <h2>Recent Updates</h2>
-            <p>Quick overview of the latest information across all categories.</p>
-            
-            {# You can add snippets from each news category here #}
-        </div>
-    </div>
+
+
+
 </div>
 {% endblock %}

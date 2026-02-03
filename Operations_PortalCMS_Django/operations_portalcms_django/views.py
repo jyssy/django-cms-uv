@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.views.decorators.cache import cache_page
+from django.urls import reverse_lazy
 from .models import SystemStatusNews, IntegrationNews
 import requests
 from collections import defaultdict
@@ -35,13 +36,10 @@ def integration_news(request):
     return render(request, 'operations_portalcms_django/integration_news.html', context)
 
 
-# Staff-only views for managing news
-def is_staff(user):
-    return user.is_staff
-
+# News management views with permission checks
 
 @login_required
-@user_passes_test(is_staff)
+@permission_required('operations_portalcms_django.add_systemstatusnews', login_url=reverse_lazy('web:unprivileged'))
 def add_system_status_news(request):
     """Add new system status news item"""
     if request.method == 'POST':
@@ -60,7 +58,7 @@ def add_system_status_news(request):
 
 
 @login_required
-@user_passes_test(is_staff)
+@permission_required('operations_portalcms_django.change_systemstatusnews', login_url=reverse_lazy('web:unprivileged'))
 def update_system_status_news(request, pk):
     """Update existing system status news item"""
     news = get_object_or_404(SystemStatusNews, pk=pk)
@@ -80,7 +78,7 @@ def update_system_status_news(request, pk):
 
 
 @login_required
-@user_passes_test(is_staff)
+@permission_required('operations_portalcms_django.add_integrationnews', login_url=reverse_lazy('web:unprivileged'))
 def add_integration_news(request):
     """Add new integration news item"""
     if request.method == 'POST':
@@ -99,7 +97,7 @@ def add_integration_news(request):
 
 
 @login_required
-@user_passes_test(is_staff)
+@permission_required('operations_portalcms_django.change_integrationnews', login_url=reverse_lazy('web:unprivileged'))
 def update_integration_news(request, pk):
     """Update existing integration news item"""
     news = get_object_or_404(IntegrationNews, pk=pk)
