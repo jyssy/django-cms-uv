@@ -13,13 +13,13 @@ urlpatterns = [
     
     # Main navigation pages
     path('operations/', views.index, name='index'),
-    path('system-status-news/', views.system_status_news, name='system_status_news'),
+    path('infrastructure-news/', views.system_status_news, name='system_status_news'),
     path('integration-news/', views.integration_news, name='integration_news'),
     path('resources/access-allocated/', views.access_allocated_resources, name='access_allocated'),
     
-    # System Status News management
-    path('system-status-news/add/', views.add_system_status_news, name='add_system_status_news'),
-    path('system-status-news/update/<int:pk>/', views.update_system_status_news, name='update_system_status_news'),
+    # Infrastructure News (System and Infrastructure Status) management
+    path('infrastructure-news/add/', views.add_system_status_news, name='add_system_status_news'),
+    path('infrastructure-news/update/<int:pk>/', views.update_system_status_news, name='update_system_status_news'),
     
     # Integration News management
     path('integration-news/add/', views.add_integration_news, name='add_integration_news'),

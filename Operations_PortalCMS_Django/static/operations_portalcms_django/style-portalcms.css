@@ -84,8 +84,10 @@ header.access-operations-drupal-portal {
     border-bottom: 1px solid var(--contrast-9);
 }
 
-.navbar-brand img {
-    height: 40px;
+.navbar-brand img,
+.navbar-brand .site-logo img {
+    height: 80px !important;
+    width: auto !important;
 }
 
 .nsf-logo img {

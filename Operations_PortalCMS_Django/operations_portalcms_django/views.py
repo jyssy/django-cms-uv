@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.views.decorators.cache import cache_page
 from django.urls import reverse_lazy
 from .models import SystemStatusNews, IntegrationNews
+from .forms import SystemStatusNewsForm, IntegrationNewsForm
 import requests
 from collections import defaultdict
 
@@ -17,13 +18,13 @@ def index(request):
 
 
 def system_status_news(request):
-    """System Status News listing page"""
+    """System and Infrastructure Status News listing page"""
     news_items = SystemStatusNews.objects.filter(is_active=True)
     context = {
         'page': 'system_status_news',
         'system_status_news': news_items,
     }
-    return render(request, 'operations_portalcms_django/system_status_news.html', context)
+    return render(request, 'operations_portalcms_django/infrastructure_news.html', context)
 
 
 def integration_news(request):
@@ -41,40 +42,46 @@ def integration_news(request):
 @login_required
 @permission_required('operations_portalcms_django.add_systemstatusnews', login_url=reverse_lazy('web:unprivileged'))
 def add_system_status_news(request):
-    """Add new system status news item"""
+    """Add new system and infrastructure status news item"""
     if request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        SystemStatusNews.objects.create(
-            title=title,
-            content=content,
-            author=request.user
-        )
-        messages.success(request, 'System status news added successfully!')
-        return redirect('djangocmsjoy:system_status_news')
+        form = SystemStatusNewsForm(request.POST)
+        if form.is_valid():
+            news = form.save(commit=False)
+            news.author = request.user
+            news.save()
+            messages.success(request, 'System and infrastructure status news added successfully!')
+            return redirect('operations_portalcms_django:system_status_news')
+    else:
+        form = SystemStatusNewsForm()
     
-    context = {'page': 'system_status_news'}
-    return render(request, 'operations_portalcms_django/add_system_status_news.html', context)
+    context = {
+        'page': 'system_status_news',
+        'form': form,
+    }
+    return render(request, 'operations_portalcms_django/add_infrastructure_news.html', context)
 
 
 @login_required
 @permission_required('operations_portalcms_django.change_systemstatusnews', login_url=reverse_lazy('web:unprivileged'))
 def update_system_status_news(request, pk):
-    """Update existing system status news item"""
+    """Update existing system and infrastructure status news item"""
     news = get_object_or_404(SystemStatusNews, pk=pk)
     
     if request.method == 'POST':
-        news.title = request.POST.get('title')
-        news.content = request.POST.get('content')
-        news.save()
-        messages.success(request, 'System status news updated successfully!')
-        return redirect('djangocmsjoy:system_status_news')
+        form = SystemStatusNewsForm(request.POST, instance=news)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'System and infrastructure status news updated successfully!')
+            return redirect('operations_portalcms_django:system_status_news')
+    else:
+        form = SystemStatusNewsForm(instance=news)
     
     context = {
         'page': 'system_status_news',
         'news': news,
+        'form': form,
     }
-    return render(request, 'operations_portalcms_django/update_system_status_news.html', context)
+    return render(request, 'operations_portalcms_django/update_infrastructure_news.html', context)
 
 
 @login_required
@@ -82,17 +89,25 @@ def update_system_status_news(request, pk):
 def add_integration_news(request):
     """Add new integration news item"""
     if request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        IntegrationNews.objects.create(
-            title=title,
-            content=content,
-            author=request.user
-        )
-        messages.success(request, 'Integration news added successfully!')
-        return redirect('djangocmsjoy:integration_news')
+        form = IntegrationNewsForm(request.POST)
+        if form.is_valid():
+            news = form.save(commit=False)
+            news.author = request.user
+            # Save form data for fields not in the model
+            news.news_type = form.cleaned_data.get('news_type', '')
+            news.affected_element = form.cleaned_data.get('affected_element', '')
+            news.effective_date = form.cleaned_data.get('effective_date')
+            news.expiration_date = form.cleaned_data.get('expiration_date')
+            news.save()
+            messages.success(request, 'Integration news added successfully!')
+            return redirect('operations_portalcms_django:integration_news')
+    else:
+        form = IntegrationNewsForm()
     
-    context = {'page': 'integration_news'}
+    context = {
+        'page': 'integration_news',
+        'form': form,
+    }
     return render(request, 'operations_portalcms_django/add_integration_news.html', context)
 
 
@@ -103,15 +118,31 @@ def update_integration_news(request, pk):
     news = get_object_or_404(IntegrationNews, pk=pk)
     
     if request.method == 'POST':
-        news.title = request.POST.get('title')
-        news.content = request.POST.get('content')
-        news.save()
-        messages.success(request, 'Integration news updated successfully!')
-        return redirect('djangocmsjoy:integration_news')
+        form = IntegrationNewsForm(request.POST, instance=news)
+        if form.is_valid():
+            news = form.save(commit=False)
+            # Save form data for fields not in the model
+            news.news_type = form.cleaned_data.get('news_type', '')
+            news.affected_element = form.cleaned_data.get('affected_element', '')
+            news.effective_date = form.cleaned_data.get('effective_date')
+            news.expiration_date = form.cleaned_data.get('expiration_date')
+            news.save()
+            messages.success(request, 'Integration news updated successfully!')
+            return redirect('operations_portalcms_django:integration_news')
+    else:
+        # Pre-populate form with existing data
+        initial_data = {
+            'news_type': news.news_type,
+            'affected_element': news.affected_element,
+            'effective_date': news.effective_date,
+            'expiration_date': news.expiration_date,
+        }
+        form = IntegrationNewsForm(instance=news, initial=initial_data)
     
     context = {
         'page': 'integration_news',
         'news': news,
+        'form': form,
     }
     return render(request, 'operations_portalcms_django/update_integration_news.html', context)
 

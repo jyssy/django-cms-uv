@@ -4,9 +4,11 @@ from cms.models.pluginmodel import CMSPlugin
 
 
 class SystemStatusNews(models.Model):
-    """News items related to system status, maintenance, outages, etc."""
+    """News items related to system status, infrastructure, maintenance, outages, etc."""
     title = models.CharField(max_length=200)
     content = models.TextField()
+    effective_date = models.DateField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -14,8 +16,8 @@ class SystemStatusNews(models.Model):
     
     class Meta:
         ordering = ['-created_at']
-        verbose_name = 'System Status News'
-        verbose_name_plural = 'System Status News'
+        verbose_name = 'System and Infrastructure Status News'
+        verbose_name_plural = 'System and Infrastructure Status News'
         db_table = 'operations_portalcms_django_systemstatusnews'
     
     def __str__(self):
@@ -26,6 +28,10 @@ class IntegrationNews(models.Model):
     """News items related to integrations, resource connections, new services, etc."""
     title = models.CharField(max_length=200)
     content = models.TextField()
+    news_type = models.CharField(max_length=50, blank=True)
+    affected_element = models.CharField(max_length=100, blank=True)
+    effective_date = models.DateField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -4,9 +4,21 @@
 {% block title %}Integration News{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="w-100 p-3 d-flex">
+        <h2 align="center">News for resource providers about ACCESS infrastructure integration roadmaps, tasks, and related software</h2>
+    </div>
+    <div class="container">
+        <div class="w-100 p-3 d-flex">
+            <div class="p-2 flex-wrap">
+                <a class="btn btn-access-primary" href="{% url 'operations_portalcms_django:add_integration_news' %}">Publish new news</a>
+            </div>
+            <div class="p-2 flex-wrap"><b>OR</b> update existing news by clicking on the Subject below.</div>
+        </div>
+    </div>
+</div>
+
 <div class="container mt-4">
-    <h1>Integration News</h1>
-    
     {% if integration_news %}
         <div class="row">
             {% for news in integration_news %}
@@ -28,14 +40,6 @@
         </div>
     {% else %}
         <p>No integration news available.</p>
-    {% endif %}
-    
-    {% if user.is_staff %}
-        <div class="mt-4">
-            <a href="{% url 'operations_portalcms_django:add_integration_news' %}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Add Integration News
-            </a>
-        </div>
     {% endif %}
 </div>
 {% endblock %}

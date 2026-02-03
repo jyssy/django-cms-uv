@@ -1,12 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}System Status News{% endblock %}
+{% block title %}System and Infrastructure Status News{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="w-100 p-3 d-flex">
+        <h2 align="center">System and Infrastructure Status News</h2>
+    </div>
+    <div class="container">
+        <div class="w-100 p-3 d-flex">
+            <div class="p-2 flex-wrap">
+                <a class="btn btn-access-primary" href="{% url 'operations_portalcms_django:add_system_status_news' %}">Publish new news</a>
+            </div>
+            <div class="p-2 flex-wrap"><b>OR</b> update existing news by clicking on the Subject below.</div>
+        </div>
+    </div>
+</div>
+
 <div class="container mt-4">
-    <h1>System Status News</h1>
-    
     {% if system_status_news %}
         <div class="row">
             {% for news in system_status_news %}
@@ -27,15 +39,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>No system status news available.</p>
-    {% endif %}
-    
-    {% if user.is_staff %}
-        <div class="mt-4">
-            <a href="{% url 'operations_portalcms_django:add_system_status_news' %}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Add System Status News
-            </a>
-        </div>
+        <p>No system and infrastructure status news available.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -178,6 +178,11 @@ SITE_ID = 1
 
 # Django CMS Settings
 CMS_CONFIRM_VERSION4 = True
+
+# Hide CMS Toolbar completely - require admin interface for page management
+CMS_TOOLBAR_HIDE = True  # Completely disable the toolbar
+CMS_TOOLBAR_ANONYMOUS_ON = False  # Hide toolbar for anonymous users
+
 CMS_TEMPLATES = [
     ('page.html', 'Page'),
     ('feature.html', 'Page with Feature'),
