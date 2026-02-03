@@ -8,9 +8,6 @@ from . import views
 app_name = 'operations_portalcms_django'
 
 urlpatterns = [
-    # Redirect root to operations page
-    path('', RedirectView.as_view(pattern_name='operations_portalcms_django:index', permanent=False), name='home'),
-    
     # Main navigation pages
     path('operations/', views.index, name='index'),
     path('infrastructure-news/', views.system_status_news, name='system_status_news'),
