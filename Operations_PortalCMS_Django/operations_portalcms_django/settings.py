@@ -256,6 +256,17 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Authentication URLs
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Admin Interface Settings
+# Force dark mode in Django admin
+import os
+if 'DJANGO_COLORS' not in os.environ:
+    os.environ['DJANGO_COLORS'] = 'dark'
+
 # Application Logging
 APP_LOG = os.environ.get('APP_LOG', str(BASE_DIR / 'var' / 'portalcms.log'))
 APP_VERSION = os.environ.get('APP_VERSION', 'dev')

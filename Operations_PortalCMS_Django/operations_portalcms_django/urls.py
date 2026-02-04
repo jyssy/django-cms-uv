@@ -29,6 +29,7 @@ urlpatterns = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('filer/', include('filer.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),  # Django auth (login/logout)
     path('', include('operations_portalcms_django.app_urls')),  # Application views (news, services, etc.)
     path('', include('cms.urls')),  # CMS pages - keep this last as catch-all
 ]
