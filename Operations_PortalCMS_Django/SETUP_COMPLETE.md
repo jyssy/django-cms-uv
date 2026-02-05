@@ -138,3 +138,9 @@ This configuration pattern matches other ACCESS Django applications:
 - allocations-portal
 
 All use the same environment variable names and structure for consistency across the platform.
+
+### Common Colors in the system
+
+- Dark teal background (bg-dark)
+- Light teal headings (#48C0B9)
+- White descriptions (#FFFFFF)

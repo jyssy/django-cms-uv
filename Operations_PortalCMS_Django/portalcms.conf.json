@@ -12,5 +12,6 @@
     "APP_LOG": "/Users/jelambeadmin/Documents/access-sysops/django-cms-uv/Operations_PortalCMS_Django/var/portalcms.log",
     "APP_VERSION": "dev",
     "SYSLOG_SOCK": "/var/run/syslog",
-    "API_BASE": ""
+    "API_BASE": "",
+    "API_KEY": "bNH5Zls05xmY/+p+HtMXmTD4z24CTwM7Gz6aZ2LQVWq3fOnRGfqcjYaWB2myLV74"
 }
