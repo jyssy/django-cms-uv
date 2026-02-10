@@ -7,7 +7,6 @@ This Django CMS project now mirrors the Drupal Operations Portal with:
 - ✅ ACCESS branding and color scheme
 - ✅ Professional header/footer matching Drupal
 - ✅ Infrastructure Integration page template
-- ✅ Blog system with djangocms-blog
 - ✅ Full media management with Django Filer
 
 ## Quick Setup
@@ -20,7 +19,7 @@ uv sync
 
 ### 2. Run Migrations
 ```bash
-cd djangocmsjoy
+cd Operations_PortalCMS_Django
 uv run python manage.py migrate
 ```
 
@@ -55,14 +54,6 @@ uv run python manage.py runserver
    - **Page** - Simple content page
    - **Page with Feature** - Hero section + content
    - **Infrastructure Integration** - Infrastructure class cards
-   - **Blog Post** - Blog post layout
-
-### Create a Blog Post
-1. Go to Djangocms Blog → Posts
-2. Click "Add post"
-3. Fill in title, content, featured image
-4. Add tags and categories
-5. Publish
 
 ## Available Templates
 
@@ -78,14 +69,11 @@ Full page layout matching Drupal's infrastructure integration page:
 - Information buttons
 - Four infrastructure class cards (HPC, Storage, Cloud, Science Gateways)
 
-### 4. Blog Post (blog.html)
-Complete blog post template with:
-- Title and publication date
-- Featured image
-- Content area
-- Tags/categories
-- Author info
-- Related posts
+### 4. Infrastructure Integration (infrastructure.html)
+Full page layout matching Drupal's infrastructure integration page:
+- Lead paragraph + hero image
+- Information buttons
+- Four infrastructure class cards (HPC, Storage, Cloud, Science Gateways)
 
 ## New Plugins Available
 
@@ -98,22 +86,21 @@ Complete blog post template with:
 ## File Structure
 
 ```
-djangocmsjoy/
+Operations_PortalCMS_Django/
 ├── templates/
 │   ├── base.html              # Master template (NEW - Enhanced)
 │   ├── page.html              # Simple page (UPDATED)
 │   ├── feature.html           # Feature page (UPDATED)
 │   ├── infrastructure.html    # Infrastructure page (NEW)
-│   ├── blog.html              # Blog post (NEW)
 │   └── menu.html              # Navigation menu (NEW)
-├── static/djangocmsjoy/
+├── static/operations_portalcms_django/
 │   └── img/
 │       ├── ACCESS-operations.svg
 │       ├── ACCESS-pipe.svg
 │       ├── NSF_logo.svg       # (NEW)
 │       ├── nsf-logo.png
 │       └── favicon.ico
-└── djangocmsjoy/
+└── operations_portalcms_django/
     └── settings.py            # Updated with new apps
 ```
 
@@ -132,13 +119,11 @@ djangocmsjoy/
 - Drag-and-drop uploads in admin
 - Folder organization
 
-### Blog System
-- Categories and tags
-- SEO meta tags (Open Graph, Twitter Cards)
-- RSS feeds
-- Archive by date
-- Author profiles
-- Related posts
+### Advanced Content Management
+- CKEditor 5 rich text editing
+- Drag-and-drop media uploads
+- Automatic image thumbnails
+- File organization in Filer
 
 ## Troubleshooting
 
@@ -156,8 +141,8 @@ mkdir -p media
 chmod 755 media
 ```
 
-### Blog Not Showing
-Verify djangocms_blog is in INSTALLED_APPS
+### Missing Templates
+Verify all templates are in the templates/ directory
 
 ## Next Steps
 

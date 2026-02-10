@@ -9,7 +9,7 @@ The application follows the same configuration pattern as other ACCESS Django ap
 ## Configuration Files
 
 ### Local Development: `.env`
-For local development, create a `.env` file in the `Operations_PortalCMS_Django` directory:
+For local development, create a `.env` file in the `django-cms-uv` directory (the root of this project):
 
 ```bash
 cp .env.example .env
@@ -87,7 +87,7 @@ DEBUG=True
 ALLOWED_HOSTS=*
 DJANGO_USER=jelambeadmin
 DJANGO_PASS=
-DB_DATABASE=djangocmsjoy
+DB_DATABASE=portalcms1
 DB_HOSTNAME_READ=localhost
 DB_HOSTNAME_WRITE=localhost
 ```

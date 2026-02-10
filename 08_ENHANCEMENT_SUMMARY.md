@@ -21,13 +21,7 @@ Enhanced the Django CMS demo to closely mirror the existing Drupal Operations Po
    - Bootstrap icons
    - Responsive grid layout
 
-3. **blog.html** (new)
-   - Full blog post template
-   - Featured image support
-   - Author info section
-   - Related posts area
-
-4. **menu.html** (new)
+3. **menu.html** (new)
    - Django CMS menu template
    - Bootstrap dropdown support
 
@@ -40,17 +34,13 @@ Enhanced the Django CMS demo to closely mirror the existing Drupal Operations Po
 ### Configuration Files
 
 1. **pyproject.toml** (updated)
-   - Added djangocms-blog and dependencies
    - Added Django Filer for media management
    - Added image processing libraries
-   - Added tagging support
 
 2. **settings.py** (updated)
-   - Added 13 new apps to INSTALLED_APPS
-   - Configured blog settings
+   - Added new apps to INSTALLED_APPS
    - Configured thumbnail generation
-   - Added meta tags settings
-   - Added 4 CMS templates
+   - Added CMS templates
 
 3. **urls.py** (updated)
    - Added Filer URLs for media management
@@ -81,14 +71,12 @@ Enhanced the Django CMS demo to closely mirror the existing Drupal Operations Po
 
 ```toml
 djangocms-text-ckeditor>=5.1.0
-djangocms-blog>=2.0.0
-djangocms-picture>=4.0.0
-djangocms-file>=4.0.0
-djangocms-link>=3.1.0
-djangocms-video>=3.0.0
+djancocms-picture>=4.0.0
+djancocms-file>=4.0.0
+djancocms-link>=3.1.0
+djancocms-video>=3.0.0
 django-filer>=3.1.0
 easy-thumbnails>=2.8.0
-django-taggit>=5.0.0
 ```
 
 ## New INSTALLED_APPS
@@ -102,10 +90,7 @@ django-taggit>=5.0.0
 'filer',
 'easy_thumbnails',
 'mptt',
-'djangocms_blog',
-'taggit',
-'taggit_autosuggest',
-'meta',
+
 ```
 
 ## Key Features Implemented
@@ -126,8 +111,7 @@ django-taggit>=5.0.0
 ✅ Block system
 
 ### Content Management
-✅ Four page templates
-✅ Blog system with categories/tags
+✅ Three page templates
 ✅ Rich text editing (CKEditor 5)
 ✅ Media library (Django Filer)
 ✅ Image thumbnailing
@@ -152,7 +136,6 @@ django-taggit>=5.0.0
 | Bootstrap 5 | ✓ | ✓ | ✅ Match |
 | ACCESS Branding | ✓ | ✓ | ✅ Match |
 | Responsive Design | ✓ | ✓ | ✅ Match |
-| Blog/News System | ✓ | ✓ | ✅ Match |
 
 ## Installation Steps
 
@@ -162,7 +145,7 @@ cd /Users/jelambeadmin/Documents/access-sysops/django-cms-uv
 uv sync
 
 # 2. Run migrations
-cd djangocmsjoy
+cd Operations_PortalCMS_Django
 uv run python manage.py migrate
 
 # 3. Collect static files
@@ -183,7 +166,6 @@ uv run python manage.py runserver
 - [ ] Breadcrumbs display properly
 - [ ] Footer renders with links
 - [ ] Infrastructure page displays cards
-- [ ] Blog posts can be created
 - [ ] Images can be uploaded via Filer
 - [ ] Rich text editor works
 - [ ] Responsive design on mobile
@@ -232,7 +214,6 @@ uv run python manage.py runserver
 ## Resources
 
 - Django CMS: https://docs.django-cms.org/
-- djangocms-blog: https://djangocms-blog.readthedocs.io/
 - Django Filer: https://django-filer.readthedocs.io/
 - Bootstrap 5: https://getbootstrap.com/docs/5.3/
 - ACCESS Branding: https://access-ci.org/brand/

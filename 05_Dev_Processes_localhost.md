@@ -31,42 +31,31 @@ The Django CMS demo has been significantly enhanced to mirror the existing Drupa
    - HPC, Storage, Cloud, and Science Gateway sections
    - Bootstrap icons integration
    
-2. **blog.html** - Blog post template for djangocms-blog
-   - Featured image placeholder
-   - Author info section
-   - Related posts area
-   - Tags and categories support
-   
 3. **Simplified page.html** - Clean single-column layout
 4. **Enhanced feature.html** - Two-column hero section with content
 
 #### 📦 **New Dependencies Added**
 ```toml
 djangocms-text-ckeditor>=5.1.0  # Rich text editor
-djangocms-blog>=2.0.0           # Production-ready blog system
 djangocms-picture>=4.0.0        # Image management
 djangocms-file>=4.0.0           # File uploads
 djangocms-link>=3.1.0           # Link plugin
 djangocms-video>=3.0.0          # Video embeds
 django-filer>=3.1.0             # Advanced media library
 easy-thumbnails>=2.8.0          # Image thumbnailing
-django-taggit>=5.0.0            # Tagging system
 ```
 
 #### ⚙️ **Settings Configuration**
 New settings added for:
-- Blog post pagination and excerpts
 - Thumbnail generation and processing
 - CKEditor image handling
-- Meta tags for SEO (Open Graph, Twitter Cards)
-- Four CMS templates: Page, Feature, Infrastructure, Blog
+- Three CMS templates: Page, Feature, Infrastructure
 
 #### 🎯 **Key Features**
 - **Drupal Parity**: Templates match Drupal's layout and structure
 - **Bootstrap 5**: Modern responsive design framework
 - **ACCESS Branding**: Official color scheme and fonts (Archivo)
 - **CDN Assets**: External resources for ACCESS UI components
-- **Blog System**: Full-featured djangocms-blog plugin installed
 - **Media Management**: Django Filer for advanced file handling
 
 ---
@@ -91,15 +80,10 @@ New settings added for:
 - **djangocms-link 3.1+** - Link plugin for internal and external links
 - **djangocms-file 4.0+** - File upload and download plugin
 - **djangocms-video 3.0+** - Video embedding plugin
-- **djangocms-blog 2.0+** - Production-ready blog/news system
-  - Includes: categories, tags, authors, SEO meta tags
-  - Multi-language support
-  - RSS feeds and archive views
 
 ### Media Management
 - **django-filer 3.1+** - Advanced media library and file management
 - **easy-thumbnails 2.8+** - Automatic image thumbnail generation
-- **django-taggit 5.0+** - Tagging framework for blog posts
 
 ### UI Framework
 - **django-bootstrap5 25.0+** - Bootstrap 5 integration for Django templates
@@ -108,7 +92,7 @@ New settings added for:
   - Must be in INSTALLED_APPS before custom apps
 
 ### ACCESS-Specific Components
-- **Custom static assets** - ACCESS branding assets copied to djangocmsjoy/static/
+- **Custom static assets** - ACCESS branding assets copied to operations_portalcms_django/static/
   - NSF logo (nsf-logo.png)
   - ACCESS Operations logo (ACCESS-operations.svg)
   - ACCESS standard logo (access-logo.svg)
@@ -125,64 +109,12 @@ New settings added for:
 - **Google Fonts - Archivo** - ACCESS brand font family
   - Used for headers and branding elements
 
-### Custom CMS Plugins (Created in this Project)
-- **SystemStatusNewsItemPlugin** - Individual system status news item for CMS editor
-- **IntegrationNewsItemPlugin** - Individual integration news item for CMS editor
-- **SystemStatusNewsFeedPlugin** - Container plugin for system status news items
-- **IntegrationNewsFeedPlugin** - Container plugin for integration news items
-  - **Note:** These were created as a learning exercise. See "Recommended Alternative" below.
-
-### Recommended Alternative for Production
-- **djangocms-blog** - Production-ready blog/news application for Django CMS
-  - **PyPI:** `pip install djangocms-blog` or `uv add djangocms-blog`
-  - **Documentation:** https://djangocms-blog.readthedocs.io/
-  - **GitHub:** https://github.com/nephila/djangocms-blog
-  - **Features:**
-    * Multi-language support with django-parler
-    * Rich text editing with CKEditor integration
-    * SEO meta tags (Twitter cards, Open Graph, Google+ snippets)
-    * Frontend editing with Django CMS toolbar
-    * Configurable permalinks and URL patterns
-    * Categories and tags
-    * Author profiles
-    * RSS/Atom feeds
-    * Archive views by date
-    * Related posts
-    * Comments support (via external apps)
-    * Django sitemap integration
-    * Per-apphook configuration
-    * Wizard integration for easy post creation
-    * Desktop notifications
-    * Liveblog functionality
-    * Auto-setup with django-app-enabler
-  - **Dependencies:**
-    * django-parler (multilingual support)
-    * django-taggit (tagging)
-    * djangocms-text-ckeditor (rich text)
-    * django-filer (media management)
-    * easy-thumbnails (image processing)
-  - **Why Use It:**
-    * Battle-tested in production
-    * Active maintenance (latest release: September 2024)
-    * 450+ GitHub stars
-    * Comprehensive documentation
-    * Built-in SEO optimization
-    * Supports Django 3.2 - 4.2
-    * Supports Django CMS 3.9 - 3.11+
-  - **Installation:**
-    ```bash
-    uv add djangocms-blog
-    # Adds to INSTALLED_APPS:
-    # 'djangocms_blog',
-    # 'parler',
-    # 'taggit',
-    # 'taggit_autosuggest',
-    # 'meta',
-    # 'sortedm2m',
-    ```
-  - **When to Use Custom Plugins vs djangocms-blog:**
-    * **Use djangocms-blog for:** Full-featured blogs, news sites, SEO-critical content
-    * **Use custom plugins for:** Simple announcements, learning Django CMS, highly custom workflows
+### Custom Content Models
+The project uses custom `SystemStatusNews` and `IntegrationNews` models for managing news content:
+- Uses standard Django permission system
+- Focused on essential fields only
+- No unnecessary complexity
+- Public read access; only create/edit requires permissions
 
 ### Static Assets Added
 - **nsf-logo.png** - National Science Foundation logo
@@ -194,7 +126,7 @@ New settings added for:
 
 ### Development Tools
 - **PostgreSQL 15** - Production-grade database
-  - Database: `djangocmsjoy`
+  - Database: `portalcms1`
   - User: `jelambeadmin`
   - Replaces default SQLite for better CMS performance
 
@@ -202,7 +134,6 @@ New settings added for:
 - **django-allauth** - Social authentication framework
   - Not needed for current functionality
   - Would enable: OAuth, social logins, advanced user management
-- **djangocms-blog** - Production-ready blog/news application (see Recommended Alternative section)
 
 ---
 
@@ -233,9 +164,9 @@ New settings added for:
 
 ### Prerequisites
 ```bash
-# Python 3.13 installed via uv
+# Python 3.12+ installed via uv
 # PostgreSQL 15 running on localhost:5432
-# Database: djangocmsjoy
+# Database: portalcms1
 # User: jelambeadmin
 ```
 
@@ -5138,29 +5069,7 @@ Update template:
 </div>
 ```
 
-### Production Alternative: djangocms-blog
-
-For production deployments, consider using the battle-tested **djangocms-blog** package instead of custom plugins:
-
-```bash
-uv add djangocms-blog
-```
-
-**Advantages:**
-- SEO optimization (meta tags, Open Graph, Twitter cards)
-- Multi-language support
-- Categories and tags
-- RSS feeds
-- Author profiles
-- Archive views
-- Related posts
-- Sitemap integration
-- Wizard for easy post creation
-- Active maintenance and community support
-
-**Documentation:** https://djangocms-blog.readthedocs.io/
-
-The custom plugins in this project are excellent for learning CMS plugin development, but djangocms-blog offers more features and has been tested in production environments.
+The custom models `SystemStatusNews` and `IntegrationNews` provide a focused approach for managing news content in the Operations Portal.
 
 ---
 
@@ -5234,17 +5143,6 @@ The new [base.html](djangocmsjoy/templates/base.html) template provides:
    - Each card has icon, description, and roadmap links
    ```
 
-4. **blog.html** - Blog post template
-   ```django
-   Full blog post layout:
-   - Post header with title and date
-   - Featured image placeholder
-   - Content area
-   - Tags/categories
-   - Author info card
-   - Related posts section
-   ```
-
 ### Django Settings Updates
 
 #### New Installed Apps
@@ -5269,11 +5167,6 @@ INSTALLED_APPS = [
     'filer',
     'easy_thumbnails',
     'mptt',
-    # NEW: Blog System
-    'djangocms_blog',
-    'taggit',
-    'taggit_autosuggest',
-    'meta',
 ]
 ```
 
@@ -5283,24 +5176,7 @@ CMS_TEMPLATES = [
     ('page.html', 'Page'),
     ('feature.html', 'Page with Feature'),
     ('infrastructure.html', 'Infrastructure Integration'),
-    ('blog.html', 'Blog Post'),
 ]
-```
-
-#### Blog Settings
-```python
-META_SITE_PROTOCOL = 'http'
-META_USE_SITES = True
-META_USE_OG_PROPERTIES = True
-META_USE_TWITTER_PROPERTIES = True
-
-BLOG_ENABLE_COMMENTS = False
-BLOG_USE_PLACEHOLDER = True
-BLOG_IMAGE_THUMBNAIL_SIZE = {'size': '800x450', 'crop': True}
-BLOG_IMAGE_FULL_SIZE = {'size': '1200x675', 'crop': True}
-BLOG_PAGINATION = 10
-BLOG_LATEST_POSTS = 5
-BLOG_POSTS_LIST_TRUNCWORDS_COUNT = 100
 ```
 
 #### Thumbnail Configuration
@@ -5376,14 +5252,6 @@ uv run python manage.py runserver
 4. The template includes default content matching Drupal
 5. Optionally add hero image via the "hero_image" placeholder
 
-#### Blog Post
-
-1. Go to Djangocms Blog → Posts
-2. Create new post
-3. Template automatically uses blog.html
-4. Add featured image, content, tags
-5. Publish
-
 ### Styling and Branding
 
 #### ACCESS Color Scheme
@@ -5422,7 +5290,7 @@ uv run python manage.py runserver
 
 #### Differences
 ⚠️ Django CMS uses placeholders vs Drupal blocks  
-⚠️ Blog system is djangocms-blog vs Drupal nodes  
+⚠️ News system uses custom models vs Drupal nodes  
 ⚠️ Media management via Filer vs Drupal media  
 ⚠️ URL routing differs (Django URLs vs Drupal paths)  
 
@@ -5483,12 +5351,6 @@ mkdir -p media
 chmod 755 media
 ```
 
-#### Issue: Blog Plugin Not Showing
-```bash
-# Verify installation
-uv run python manage.py shell
->>> import djangocms_blog
->>> print(djangocms_blog.__version__)
 ```
 
 #### Issue: Templates Not Found
@@ -5501,7 +5363,6 @@ ls djangocmsjoy/templates/
 ### Resources
 
 - **Django CMS Docs:** https://docs.django-cms.org/
-- **djangocms-blog Docs:** https://djangocms-blog.readthedocs.io/
 - **Django Filer Docs:** https://django-filer.readthedocs.io/
 - **ACCESS Branding:** https://access-ci.org/brand/
 - **Bootstrap 5 Docs:** https://getbootstrap.com/docs/5.3/

@@ -2,17 +2,15 @@
 
 This document explains how to manage user permissions for the Operations Portal.
 
-## Why Custom Models Instead of djangocms-blog?
+## Why Custom Models?
 
-This project uses custom `SystemStatusNews` and `IntegrationNews` models rather than djangocms-blog because:
+This project uses custom `SystemStatusNews` and `IntegrationNews` models to keep the system simple and focused:
 
-- **Simpler** - No need for blog categories, tags, SEO fields, RSS feeds, etc.
-- **Focused** - Only the fields you need (title, content, author, is_active)
+- **Simpler** - Only the fields you need (title, content, author, is_active)
+- **Focused** - No unnecessary blog categories, tags, or SEO fields
 - **Standard Django** - Uses Django's built-in permission system that works out of the box
-- **No Complexity** - Avoids djangocms-blog's chicken-and-egg initialization issues
+- **No Complexity** - Avoids unnecessary initialization issues
 - **Public Read** - News feeds are publicly readable; only create/edit requires permissions
-
-djangocms-blog is installed as a dependency but not enabled. The custom model approach gives you full control with less overhead.
 
 ## User Groups
 
