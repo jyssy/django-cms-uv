@@ -20,3 +20,4 @@ Follow these guides in order for setup and understanding:
 7. [Setup Complete](07_SETUP_COMPLETE.md) - Setup completion documentation
 8. [Enhancement Summary](08_ENHANCEMENT_SUMMARY.md) - Project enhancement history
 9. [Rename Summary](09_RENAME_SUMMARY.md) - File rename history
+10. [PermissionsSummary](10_Permissions.md) - permissions tweaking
